@@ -1,15 +1,16 @@
 'use client';
 
+// React and 3rd party libraries
 import { FormEvent, useEffect, useState } from 'react';
+
+// Mantine & related
+import theme from '@/theme';
 import { Button, MantineProvider, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import theme from '@/theme';
+
+// Local Modules
+import PostContainer from '@/components/PostContainer';
 import { api } from '@/util/api';
-import ReplySvg from '@/components/replySvg';
-import RepostSvg from '@/components/RepostSvg';
-import LikeSvg from '@/components/likeSvg';
-import MoreOptionsSvg from '@/components/MoreOptionsSvg';
-import PostItem from '@/components/PostItem';
 
 type FormValues = {
 	bskyHandle: string;
@@ -37,9 +38,6 @@ export default function Home() {
 		setFeed(resp.data.data.feed);
 	};
 
-	const renderPostItems = () =>
-		feed.map((item: any) => <PostItem item={item} key={item.post.cid} />);
-
 	useEffect(() => {
 		console.log(feed);
 	}, [feed]);
@@ -60,7 +58,7 @@ export default function Home() {
 			</form>
 			<br />
 			<br />
-			{feed && renderPostItems()}
+			{feed && <PostContainer feed={feed} />}
 		</MantineProvider>
 	);
 }

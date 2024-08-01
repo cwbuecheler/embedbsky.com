@@ -1,0 +1,80 @@
+.itemContainer {
+	border: 1px solid #aaaaaa;
+	padding: 20px;
+	margin: 10px;
+	max-width: 600px;
+}
+
+.repostNotice {
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	padding-left: 40px;
+	font-size: 14px;
+	letter-spacing: 0.25px;
+	font-weight: 700;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
+		Arial, sans-serif;
+	line-height: 17px;
+	color: rgb(66, 87, 108);
+}
+.repostNoticeIcon {
+	display: inline-block;
+	margin-right: 5px;
+	margin-top: 3px;
+	overflow: hidden;
+}
+
+.contentWrap {
+	display: flex;
+	justify-content: left;
+	align-items: top;
+}
+
+.avatar {
+	margin-right: 10px;
+}
+
+.contentInfo {
+	font: 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	text-align: start;
+	text-decoration: none;
+}
+.contentInfo span {
+	margin-right: 6px;
+}
+.name {
+	font-size: 16px;
+	letter-spacing: 0.25px;
+	font-weight: 700;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
+		Arial, sans-serif;
+	line-height: 19px;
+	color: rgb(11, 15, 20);
+}
+.name a:link, .name a:visited, .name a:hover, .name a:active {
+	color: rgb(11, 15, 20);
+	text-decoration: none;
+}
+
+.handle {
+	font-size: 15px;
+	letter-spacing: 0.25px;
+	font-weight: 400;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
+		Arial, sans-serif;
+	color: rgb(66, 87, 108);
+	flex-shrink: 4;
+}
+.handle a:link,
+.handle a:visited,
+.handle a:hover,
+.handle a:active {
+	color: rgb(66, 87, 108);
+	text-decoration: none;
+}
+
+.postImage {
+	width: 442px;
+	max-width: 442px;
+}
