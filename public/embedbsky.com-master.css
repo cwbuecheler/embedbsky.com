@@ -1,0 +1,330 @@
+/*
+  Base EmbedBsky.com CSS - feel free to override.
+	Note that everything is highly specific to the master div's ID.	So if you choose
+	to change that, you'll need to make significant adjustments.
+
+	None of this is copyrighted 2024 or any other year by Christopher Buecheler :)
+	Use it however you like.
+	https://embedbsky.com/
+*/
+
+/* The container for the whole timeline ======================================================== */
+#embedbsky-com-timeline-embed {
+	max-width: 600px;
+	/*
+	height: 500px;
+	overflow-y: scroll;
+	*/
+}
+
+/* Every individual post has a container ======================================================= */
+#embedbsky-com-timeline-embed .postcontainer {
+	background: transparent;
+}
+
+/* If the post is a repost, it gets a header explaining who reposted it  ======================= */
+#embedbsky-com-timeline-embed .postcontainer .repostheader {
+	color: var(--v-color-repost-header);
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
+		Arial, sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: 0.25px;
+	line-height: 17px;
+	padding-left: 38px;
+}
+#embedbsky-com-timeline-embed .postcontainer .repostheader a {
+	align-items: center;
+	color: var(--v-color-repost-header);
+	display: flex;
+	justify-content: left;
+	text-decoration: none;
+}
+#embedbsky-com-timeline-embed .postcontainer .repostheader span.svg {
+	display: inline-block;
+	margin-right: 5px;
+	margin-top: 3px;
+	overflow: hidden;
+}
+
+/* Every post has a postbox that contains the avatar and text columns  ========================= */
+#embedbsky-com-timeline-embed .postcontainer .postbox {
+	border-bottom: 1px solid var(--v-color-border);
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 0 12px 0;
+	padding: 0 0 8px 0;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col {
+	flex-grow: 1;
+	text-align: left;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.avatar {
+	margin-right: 10px;
+	max-width: 52px;
+	width: 52px;
+}
+
+/* Avatar Handling ============================================================================= */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.avatar .avatar-img {
+	max-width: 52px;
+	width: 52px;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.avatar .avatar-img img {
+	max-width: 52px;
+	width: 52px;
+	height: 52px;
+	border-radius: 26px;
+}
+
+/* Text Column Handling  ======================================================================= */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text {
+	color: rgb(11, 15, 20);
+	flex-grow: 1;
+	flex: 1 1 0%;
+	font: 16px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	font-size: 1rem;
+	letter-spacing: 0.25px;
+	line-height: 21px;
+	text-align: start;
+	text-decoration: none;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .textdata {
+	font: 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	text-align: start;
+	text-decoration: none;
+}
+
+/* User name  ================================================================================== */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text strong {
+	font-size: 16px;
+	letter-spacing: 0.25px;
+	font-weight: 700;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
+		Arial, sans-serif;
+	line-height: 19px;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text strong a:link,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text strong a:visited,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text strong a:active,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text strong a:hover {
+	color: var(--v-color-link-name);
+	text-decoration: none;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text strong a:hover {
+	text-decoration: underline;
+}
+
+/* User handle  ================================================================================ */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .handle {
+	font-size: 15px;
+	letter-spacing: 0.25px;
+	font-weight: 400;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
+		Arial, sans-serif;
+	color: rgb(66, 87, 108);
+	flex-shrink: 4;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .handle a:link,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .handle a:visited,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .handle a:active,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .handle a:hover {
+	color: var(--v-color-link-handle);
+	text-decoration: none;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .handle a:hover {
+	color: var(--v-color-link-handle-hover);
+}
+
+/* Time Ago text  ============================================================================== */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .timeago a:link,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .timeago a:visited,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .timeago a:active,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .timeago a:hover {
+	color: var(--v-color-timestamp-handle);
+	text-decoration: none;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .timeago a:hover {
+	color: var(--v-color-link-timestamp-hover);
+	text-decoration: underline;
+}
+
+/* The actual text content of the post  ======================================================== */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .textcopy {
+	white-space: pre-wrap;
+}
+/* TODO - hande linking links  ================================================================= */
+
+/* Display Images differently depending on how many of them there are  ========================= */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .postimages {
+	display: flex;
+	flex-wrap: wrap;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .postimages .img {
+	flex: 1 1 calc(100% - 10px);
+	box-sizing: border-box;
+	aspect-ratio: 1 / 1;
+	padding: 5px;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .postimages.len-2 .img,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .postimages.len-4 .img {
+	flex: 1 1 calc(50% - 10px);
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .postimages.len-3 .img {
+	flex: 1 1 calc(33% - 10px);
+}
+
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .postimages .img a {
+	display: block;
+	position: relative;
+	max-height: 100%;
+	max-width: 100%;
+	overflow: hidden;
+	border-radius: 5px;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .postimages .img a img {
+	width: 100%;
+	height: 100%;
+	object-position: left 50% top 50%;
+	object-fit: cover;
+	transition-duration: 0ms;
+	transition-timing-function: linear;
+}
+
+/* TODO - handle link cards  =================================================================== */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .linkcard {
+	border: 1px solid var(--v-color-border);
+	border-radius: 10px;
+	margin: 8px 0 2px 0;
+}
+
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .linkcard a {
+	display: block;
+	border-radius: 10px;
+	color: var(--v-color-link-linkcard);
+	text-decoration: none;
+}
+
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .linkcard .image {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-radius: 10px;
+	aspect-ratio: 1.91 / 1;
+	position: relative;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .linkcard .image img {
+	max-width: 100%;
+	object-position: left 50% top 50%;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	object-fit: cover;
+	transition-duration: 0ms;
+	transition-timing-function: linear;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .linkcard .site {
+	padding: 8px 14px 2px 14px;
+	font-size: 14px;
+	letter-spacing: 0.25px;
+	font-weight: 400;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
+		Arial, sans-serif;
+	color: var(--v-color-link-handle);
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .linkcard .text {
+	padding: 2px 14px 8px 14px;
+	font-size: 16px;
+	letter-spacing: 0.25px;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
+		Arial, sans-serif;
+}
+
+/* The bar with the likes/reposts/etc icons  =================================================== */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .icons {
+	display: flex;
+	flex: 1 1 100%;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 0;
+	width: 100%;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .icons .replies,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .icons .reposts,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .icons .likes,
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .icons .empty {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: left;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .icons .svg {
+	display: flex;
+	height: 18px;
+	justify-content: left;
+	align-items: center;
+	margin: 0 4px 0 0;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .icons .svg svg {
+	height: 18px;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .icons .num {
+	font-size: 15px;
+	letter-spacing: 0.25px;
+	color: var(--v-color-counts);
+	user-select: none;
+	line-height: 15px;
+}
+
+/* Handle Quote Posts  ========================================================================= */
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .quotebox {
+	border: 1px solid var(--v-color-border);
+	border-radius: 5px;
+	padding: 12px;
+	margin-top: 10px;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .quotebox .header {
+	width: 100%;
+	margin: 0 0 5px 0;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .quotebox .header .avatar {
+	width: 16px;
+	margin: 0 5px 0 0;
+	padding: 0;
+}
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .quotebox .header .avatar img {
+	width: 16px;
+	border-radius: 8px;
+	height: 16px;
+}
+
+#embedbsky-com-timeline-embed .postcontainer .postbox .col.text .quotebox .header .timeago {
+	font: 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	text-align: start;
+	text-decoration: none;
+}
+
+/* color controls - these can be overridden by the CSS generated by the site, or by the user === */
+#embedbsky-com-timeline-embed {
+	--v-color-border: rgb(212, 219, 226);
+	--v-color-counts: rgb(111, 134, 159);
+	--v-color-link-handle-hover: rgb(66, 87, 108);
+	--v-color-link-handle: rgb(66, 87, 108);
+	--v-color-link-hover: rgb(71, 160, 255);
+	--v-color-link-name-hover: rgb(11, 15, 20);
+	--v-color-link-name: rgb(11, 15, 20);
+	--v-color-link-timestamp: rgb(0, 0, 0);
+	--v-color-link-timestamp-hover: rgb(0, 0, 0);
+	--v-color-link: rgb(16, 131, 254);
+	--v-color-link-linkcard: rgb(0, 0, 0);
+	--v-color-link-linkcard-hover: rgb(0, 0, 0);
+	--v-color-repost-header: rgb(66, 87, 108);
+}

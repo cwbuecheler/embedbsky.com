@@ -36,10 +36,14 @@ dayjs.updateLocale('en', {
 
 const generateBskyImage = (item: BskyItem): React.ReactElement | null => {
 	// If there's a user image and no QP, show that
-	const userImage = item?.post?.embed?.images?.[0]?.thumb;
+	const userImage = item?.post?.author?.avatar;
 	if (userImage) {
 		return (
-			<img src={userImage} alt={item.post.embed.images[0].alt} className={classes.postImage} />
+			<img
+				src={userImage}
+				alt={`${item.post.author.displayname} avatar`}
+				className={classes.postImage}
+			/>
 		);
 	}
 
@@ -96,7 +100,7 @@ const PostItem: React.FC<PostItemProps> = (props) => {
 			) : null}
 			<div className={classes.contentWrap}>
 				<div className={classes.avatar}>
-					{item.post.author.avatar ? (
+					{item.post.author?.avatar ? (
 						<img
 							alt=""
 							draggable="false"
@@ -109,6 +113,7 @@ const PostItem: React.FC<PostItemProps> = (props) => {
 						<UserAvatarSvg />
 					)}
 				</div>
+
 				<div className="contentContainer">
 					<div className={classes.contentInfo}>
 						<span className={classes.name}>
@@ -127,7 +132,9 @@ const PostItem: React.FC<PostItemProps> = (props) => {
 					<div className="content" style={{ whiteSpace: 'pre-wrap' }}>
 						{item.post.record.text}
 						{generateBskyImage(item)}
+						{/*
 						{handleQuotePost(item.post.embed.record.record)}
+						*/}
 					</div>
 					<div className="tools">
 						<ReplySvg /> <span className="replyCount">{item.post.replyCount}</span>

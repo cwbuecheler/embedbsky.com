@@ -18,14 +18,13 @@ type FormValues = {
 
 export default function Home() {
 	const [feed, setFeed] = useState<any>(undefined);
+
 	const form = useForm<FormValues>({
 		initialValues: {
-			bskyHandle: '',
+			bskyHandle: 'cwbuecheler.bsky.social',
 		},
-
 		validate: {
 			bskyHandle: (value) => {
-				console.log(value);
 				return value.length > 6 ? '' : 'Handle must be at least 6 characters long.';
 			},
 		},
@@ -34,13 +33,10 @@ export default function Home() {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const values = form.values;
-		const resp = await api.lookupFeed(values.bskyHandle);
-		setFeed(resp.data.data.feed);
+		const resp = await api.createFeed(values.bskyHandle);
+		console.log(resp.data);
+		setFeed(resp.data.feedData.feed);
 	};
-
-	useEffect(() => {
-		console.log(feed);
-	}, [feed]);
 
 	return (
 		<MantineProvider theme={theme}>

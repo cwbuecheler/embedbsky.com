@@ -9,7 +9,9 @@ const postContainer: React.FC<PostContainerProps> = (props) => {
 	const { feed } = props;
 
 	const renderPostItems = () =>
-		feed.map((item: any) => <PostItem item={item} key={item.post.cid} />);
+		feed.map((item: any, index: number) => (
+			<PostItem item={item} key={`${item.post.cid}-${index}`} />
+		));
 
 	if (!feed) {
 		return null;

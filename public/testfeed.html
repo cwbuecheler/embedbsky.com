@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title>test</title>
+	<link rel="stylesheet" href="embedbsky.com-master.css" />
+</head>
+<body>
+	<div style="width: 600px; margin: 30px auto 0 auto;">
+		<div id="embedbsky-com-timeline-embed"></div>
+	</div>
+</body>
+</html>
+<script>
+const getHtml = async (url) => {
+	const htmlResp = await fetch(url);
+	if (htmlResp.status !== 200) {
+		console.error(`Couldn't get feed - please try again.`);
+		return 'No feed data could be located';
+	}
+	return htmlResp.text();
+}
+document.addEventListener('DOMContentLoaded', async () => {
+	const d = new Date();
+	const v = d.toISOString();
+	const html = await getHtml(`http://embedbsky.com.s3-website-us-east-1.amazonaws.com/feeds/cwbuecheler.bsky.social.html?v=${v}`);
+
+	const embedDiv = document.getElementById('embedbsky-com-timeline-embed');
+	embedDiv.innerHTML = html;
+});
+
+</script>
