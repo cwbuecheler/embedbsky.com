@@ -109,18 +109,35 @@ export default function Home() {
 		const values = form.values;
 		const resp = await api.createFeed(values.bskyHandle);
 		if (!resp.success) {
-			notifications.show({
-				color: 'red',
-				title: 'Error',
-				message: `Unfortunately, we couldn't load that timeline. Please try again!`,
-			});
+			setIsLoading(false);
+			showError();
 			return;
 		}
 		const returnedURI = resp?.data?.savedFeedURI as string;
+		if (!returnedURI) {
+			setIsLoading(false);
+			showError();
+			return;
+		}
 		const js = generateJS(returnedURI, values.width, values.height, values.darkmode);
 		setScriptText(js);
 		handleJS(returnedURI);
 		setIsLoading(false);
+	};
+
+	// Error message
+	const showError = (txt?: string) => {
+		let message;
+		if (txt) {
+			message = txt;
+		} else {
+			message = `Unfortunately, we couldn't load that timeline. Please try again!`;
+		}
+		notifications.show({
+			color: 'red',
+			title: 'Error',
+			message,
+		});
 	};
 
 	// Display Component
