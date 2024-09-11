@@ -180,6 +180,14 @@ export default function Home() {
 						</Link>
 						.
 					</Text>
+					<Space h="lg" />
+					<Text size="lg">
+						We&apos;re very much in beta. If you find issues, let me know, or feel free to{' '}
+						<Anchor href="https://github.com/cwbuecheler/embedbsky.com/issues" target="_blank">
+							submit them on Github
+						</Anchor>
+					</Text>
+					<Space h="lg" />
 					<Paper className={classes.formwrap} p="xl" shadow="sm">
 						<TextInput
 							key={form.key('bskyHandle')}
