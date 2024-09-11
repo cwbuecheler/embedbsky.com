@@ -1,10 +1,11 @@
+import '@mantine/core/styles.css';
+
 // React, Next, Etc.
 import type { Metadata } from 'next';
 
 // Mantine and related
 import { Container, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
-import '@mantine/core/styles.css';
 import theme from '@/theme';
 
 // Local
