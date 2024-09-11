@@ -350,13 +350,13 @@
 	--v-color-text: rgb(255, 255, 255);
 	--v-color-link-handle-hover: rgb(174, 187, 201);
 	--v-color-link-handle: rgb(174, 187, 201);
-	--v-color-link-hover: rgb(71, 160, 255);
+	--v-color-link-hover: rgb(79, 162, 249);
 	--v-color-link-name-hover: rgb(255, 255, 255);
 	--v-color-link-name: rgb(255, 255, 255);
 	--v-color-link-timestamp: rgb(174, 187, 201);
 	--v-color-link-timestamp-hover: rgb(174, 187, 201);
-	--v-color-link: rgb(16, 131, 254);
-	--v-color-link-linkcard: rgb(174, 187, 201);
-	--v-color-link-linkcard-hover: rgb(174, 187, 201);
+	--v-color-link: rgb(32, 139, 254);
+	--v-color-link-linkcard: rgb(255, 255, 255);
+	--v-color-link-linkcard-hover: rgb(255, 255, 255);
 	--v-color-repost-header: rgb(174, 187, 201);
 }

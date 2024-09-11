@@ -17,8 +17,8 @@ export default function FAQ() {
 				</Title>
 				<Text mb={20} size="lg">
 					It&apos;s a simple application that allows a user to embed a BlueSky timeline in their
-					website, similar to what you can do with other social media sites. We store some timeline
-					html in a CDN, and then we give you a script to embed on your site. That script reaches
+					website, similar to what you can do with other social media sites. I store some timeline
+					html in a CDN, and then I give you a script to embed on your site. That script reaches
 					out, snags the appropriate HTML, and formats it so it looks pretty.
 				</Text>
 				<Title mb={10} order={2}>
@@ -36,12 +36,12 @@ export default function FAQ() {
 					!
 				</Text>
 				<Title mb={10} order={2}>
-					Why?
+					y u do dis?
 				</Title>
 				<Text mb={20} size="lg">
-					I love BlueSky, I wanted to get a bit more familiar with the @ protocol, I thought
+					I love BlueSky, I wanted to get a bit more familiar with the At Protocol, I thought
 					it&apos;d be fun to create something open source, I wanted a portfolio piece, I was bored
-					on a weekend &hellip; whole bunch of reasons!
+					&hellip; whole bunch of reasons!
 				</Text>
 				<Title mb={10} order={2}>
 					How do I use it?
@@ -63,6 +63,12 @@ export default function FAQ() {
 					explicitly vanilla - no 3rd party libraries needed, not even AtProto). The fourth is that
 					I wanted to teach myself some stuff about generating and serving static content from
 					CloudFront.
+				</Text>
+				<Title mb={10} order={2}>
+					Why can&apos;t I set my own colors?
+				</Title>
+				<Text mb={20} size="lg">
+					Coming soon!
 				</Text>
 				<Title mb={10} order={2}>
 					Can I contribute?

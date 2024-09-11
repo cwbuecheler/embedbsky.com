@@ -5,6 +5,7 @@ import { FormEvent, useEffect, useState } from 'react';
 
 // Mantine & related
 import {
+	Anchor,
 	Box,
 	Button,
 	Group,
@@ -23,6 +24,7 @@ import { notifications } from '@mantine/notifications';
 import Header from '@/components/Header';
 import classes from '@/app/page.module.css';
 import { api } from '@/util/api';
+import Link from 'next/link';
 
 type FormValues = {
 	bskyHandle: string;
@@ -145,6 +147,22 @@ export default function Home() {
 			<Header activeLink="home" />
 			<Box mih={600} pl={20} pr={20}>
 				<form onSubmit={handleSubmit}>
+					<Title mb={20} order={1}>
+						Embed My BlueSky Timeline
+					</Title>
+					<Space h="lg" />
+					<Text size="lg">
+						Are you looking for a way to embed the last thirty posts and reposts from your BlueSky
+						timeline in your blog or website? Well, look no further! Just fill in the form below and
+						then paste the generated code into your site's HTML, and you'll get exactly that. Note
+						that once timelines are generated, they update about every five minutes, so if you don't
+						see a post immediately, wait a few and then check the timeline again. Questions? Check
+						out the{' '}
+						<Link href="/faq" passHref legacyBehavior>
+							<Anchor>FAQ</Anchor>
+						</Link>
+						.
+					</Text>
 					<Paper className={classes.formwrap} p="xl" shadow="sm">
 						<TextInput
 							key={form.key('bskyHandle')}
@@ -204,7 +222,9 @@ export default function Home() {
 							</div>
 						</div>
 					</Group>
-				) : null}
+				) : (
+					<Text ta="center">(click the submit button to see something)</Text>
+				)}
 			</Box>
 		</>
 	);
