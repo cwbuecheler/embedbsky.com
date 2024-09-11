@@ -44,7 +44,7 @@ export default function Home() {
 
 	const form = useForm<FormValues>({
 		initialValues: {
-			bskyHandle: 'cwbuecheler.bsky.social',
+			bskyHandle: '',
 			darkmode: false,
 			height: null,
 			width: null,
@@ -65,7 +65,7 @@ export default function Home() {
 	) => {
 		let w = width ? width : 550;
 		let h = height ? height : 600;
-		let js = '<link rel="stylesheet" href="/embedbsky.com-master.css" />';
+		let js = '<link rel="stylesheet" href="https://embedbsky.com/embedbsky.com-master-min.css" />';
 		js += `<div id="embedbsky-com-timeline-embed"${darkmode ? ' class="darkmode"' : ''}></div>`;
 		js += '<script>';
 		js += `let containerWidth=${w},containerHeight=${h};`;
