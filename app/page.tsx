@@ -154,10 +154,10 @@ export default function Home() {
 					<Text size="lg">
 						Are you looking for a way to embed the last thirty posts and reposts from your BlueSky
 						timeline in your blog or website? Well, look no further! Just fill in the form below and
-						then paste the generated code into your site's HTML, and you'll get exactly that. Note
-						that once timelines are generated, they update about every five minutes, so if you don't
-						see a post immediately, wait a few and then check the timeline again. Questions? Check
-						out the{' '}
+						then paste the generated code into your site&apos;s HTML, and you&apos;ll get exactly
+						that. Note that once timelines are generated, they update about every five minutes, so
+						if you don&apos;t see a post immediately, wait a few and then check the timeline again.
+						Questions? Check out the{' '}
 						<Link href="/faq" passHref legacyBehavior>
 							<Anchor>FAQ</Anchor>
 						</Link>

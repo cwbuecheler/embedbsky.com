@@ -74,8 +74,15 @@ export default function FAQ() {
 					Can I contribute?
 				</Title>
 				<Text mb={20} size="lg">
-					Sure! The whole thing&apos;s open source. Here&apos;s the front-end repo, and here&apos;s
-					the back-end repo.
+					Sure! The whole thing&apos;s open source.{' '}
+					<Anchor href="https://github.com/cwbuecheler/embedbsky.com" target="_blank">
+						Here&apos;s the front-end repo
+					</Anchor>
+					, and{' '}
+					<Anchor href="https://github.com/cwbuecheler/embedbsky.com-aws" target="_blank">
+						here&apos;s the back-end repo
+					</Anchor>
+					.
 				</Text>
 				<Title mb={10} order={2}>
 					Can I advertise on your website and/or in people&apos;s timelines?
@@ -88,7 +95,7 @@ export default function FAQ() {
 				</Title>
 				<Text mb={20} size="lg">
 					You could hire me to consult for your startup, SaaS business, or the like. Or you could
-					kick five bucks my way via Kofi. Or you could give me props on LinkedIn or something.
+					kick five bucks my way via Kofi (coming soon). Or you could give me props on LinkedIn.
 					I&apos;m not picky, but I&apos;m definitely appreciative! Also, as previously mentioned,
 					you should{' '}
 					<Anchor href="https://bsky.app/profile/cwbuecheler.bsky.social" target="_blank">
@@ -102,8 +109,7 @@ export default function FAQ() {
 				<Text mb={20} size="lg">
 					The only thing that gets stored, and you can verify this by perusing the source code
 					mentioned above, is your BlueSky ID and a flat HTML file containing your last thirty
-					BlueSky posts (including reposts and quote posts). Frankly, much more of your timeline
-					data is available via web search than via this app.
+					BlueSky posts (including reposts and quote posts).
 				</Text>
 				<Title mb={10} order={2}>
 					Nonetheless, I&apos;d like to delete my data
@@ -112,14 +118,16 @@ export default function FAQ() {
 					You have two options. The first is to delete your BlueSky account. The system
 					automatically nukes any data from nonexistent accounts. If you&apos;d prefer not to pursue
 					the nuclear option, you can get in touch with me and I can manually remove you. Once I get
-					AtProto oauth working, you&apos;ll be able to do it yourself, but they haven&apos;t even
-					rolled that out yet, and I don&apos;t want to make a &ldquo;delete feed&rdquo; function
-					because someone could use it maliciously to delete someone else&apos;s feed.
+					AtProto oAuth working, you&apos;ll be able to do it yourself, I&apos;m still working on
+					this and wanted to get to beta before worrying about adding in oAuth.
 				</Text>
 				<Text mb={20} size="lg">
-					Please keep in mind, however, that anyone can access a feed, and thus create an embed, if
-					they know someone&apos;s BlueSky handle &hellip; which is prominently displayed on
-					everyone&apos;s BlueSky timeline. It&apos;s public info on the web.
+					Please keep in mind, however, that anyone can access a feed via the API, if they know
+					someone&apos;s BlueSky handle &hellip; which is prominently displayed on everyone&apos;s
+					BlueSky timeline. It&apos;s public info on the web. This is true
+					<em>even if you have your profile set to viewable by logged-in users only</em>. It&apos;s
+					still all there in the AtProto firehose. BlueSky is not (currently) built to be private in
+					any real capacity.
 				</Text>
 				<Title mb={10} order={2}>
 					Why didn&apos;t you use [technology that I particularly like]?
@@ -127,22 +135,18 @@ export default function FAQ() {
 				<Text mb={20} size="lg">
 					Well, there&apos;s like a hundred million ways to approach building a web app and no
 					one&apos;s going to make the exact same choices. I chose tech and approaches I am familiar
-					with, enjoy working with, etc. You may notice for example that there&apos;s no CSS
-					framework. There are two reason for that: first, unlike a lot of programmers, I{' '}
-					<em>like</em> CSS. I think the cascade is very much a feature, and not a bug, and that
-					when used elegantly and well it kicks the butt off just about any CSS framework out there,
-					especially CSS-in-JS solutions, which are clunky and defeat the whole purpose of the
-					language. Beyond that, I want people to be able to easily customize their timelines, so
-					using vanilla CSS allows for the fewest barriers between them and making those changes.
-					That&apos;s just an example of one of countless tech choices I made while putting this
-					whole thing together.
+					with, enjoy working with, etc. You may notice that the embed code is pure vanilla HTML,
+					CSS, and JavaScript. No web components, no embeds, no third party libraries. Not even
+					jQuery! That&apos;s just an example of one of countless tech choices I made while putting
+					this whole thing together.
 				</Text>
 				<Title mb={10} order={2}>
 					I have a question not answered in this FAQ
 				</Title>
 				<Text mb={20} size="lg">
 					I guess I must not get it that frequently, then! Feel free to contact me and I&apos;ll do
-					my best to answer it.
+					my best to answer it. BlueSky DMs are good, but I&apos;m not hard to find on the web
+					either.
 				</Text>
 			</Box>
 		</>
