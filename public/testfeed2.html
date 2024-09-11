@@ -1,0 +1,3 @@
+<link rel="stylesheet" href="embedbsky.com-master.css" />
+<div id="embedbsky-com-timeline-embed"></div>
+<script>let containerWidth = 600, containerHeight = 500; const getHtml = async t => { const e = await fetch(t); return 200 !== e.status ? '<p><strong>No feed data could be located</p></strong>' : e.text() }; document.addEventListener('DOMContentLoaded', (async () => { const t = (new Date).toISOString(), e = document.getElementById('embedbsky-com-timeline-embed'); e.style.width = `${containerWidth}px`, e.style.height = `${containerHeight}px`; const n = await getHtml(`http://embedbsky.com.s3-website-us-east-1.amazonaws.com/feeds/cwbuecheler.bsky.social.html?v=${t}`); e.innerHTML = n }));</script>
