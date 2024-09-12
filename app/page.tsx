@@ -107,20 +107,44 @@ export default function Home() {
 		setIsLoading(true);
 		setScriptText('');
 		const values = form.values;
-		const resp = await api.createFeed(values.bskyHandle);
+
+		// See if they put a full handle or just a single word. If the latter, add ".bsky.social"
+		let handle = form.values.bskyHandle;
+		if (!handle.includes('.')) {
+			handle += '.bsky.social';
+		}
+
+		const resp = await api.createFeed(handle);
 		if (!resp.success) {
-			notifications.show({
-				color: 'red',
-				title: 'Error',
-				message: `Unfortunately, we couldn't load that timeline. Please try again!`,
-			});
+			setIsLoading(false);
+			showError();
 			return;
 		}
 		const returnedURI = resp?.data?.savedFeedURI as string;
+		if (!returnedURI) {
+			setIsLoading(false);
+			showError();
+			return;
+		}
 		const js = generateJS(returnedURI, values.width, values.height, values.darkmode);
 		setScriptText(js);
 		handleJS(returnedURI);
 		setIsLoading(false);
+	};
+
+	// Error message
+	const showError = (txt?: string) => {
+		let message;
+		if (txt) {
+			message = txt;
+		} else {
+			message = `Unfortunately, we couldn't load that timeline. Please try again!`;
+		}
+		notifications.show({
+			color: 'red',
+			title: 'Error',
+			message,
+		});
 	};
 
 	// Display Component
@@ -163,6 +187,14 @@ export default function Home() {
 						</Link>
 						.
 					</Text>
+					<Space h="lg" />
+					<Text size="lg">
+						We&apos;re very much in beta. If you find issues, let me know, or feel free to{' '}
+						<Anchor href="https://github.com/cwbuecheler/embedbsky.com/issues" target="_blank">
+							submit them on Github
+						</Anchor>
+					</Text>
+					<Space h="lg" />
 					<Paper className={classes.formwrap} p="xl" shadow="sm">
 						<TextInput
 							key={form.key('bskyHandle')}
@@ -174,17 +206,26 @@ export default function Home() {
 						/>
 						<Space h="lg" />
 						<NumberInput
+							allowDecimal={false}
+							allowLeadingZeros={false}
+							allowNegative={false}
 							key={form.key('width')}
 							label="Embed Width (px)"
-							placeholder="defaults to 550"
+							min={200}
+							max={2000}
+							placeholder="min 200, defaults to 550"
 							{...form.getInputProps('width')}
 						/>
 						<Space h="lg" />
 						<NumberInput
+							allowDecimal={false}
+							allowLeadingZeros={false}
+							allowNegative={false}
 							key={form.key('height')}
 							label="Embed Height (px)"
-							placeholder="defaults to 600"
-							width={200}
+							min={200}
+							max={2000}
+							placeholder="min 200, defaults to 600"
 							{...form.getInputProps('height')}
 						/>
 						<Space h="lg" />
@@ -196,7 +237,7 @@ export default function Home() {
 						</Text>
 						<Space h="lg" />
 						<Button type="submit" loading={isLoading}>
-							Submit
+							Get My Code
 						</Button>
 					</Paper>
 				</form>
