@@ -1,4 +1,5 @@
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 // React, Next, Etc.
 import type { Metadata } from 'next';
