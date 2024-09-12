@@ -199,17 +199,26 @@ export default function Home() {
 						/>
 						<Space h="lg" />
 						<NumberInput
+							allowDecimal={false}
+							allowLeadingZeros={false}
+							allowNegative={false}
 							key={form.key('width')}
 							label="Embed Width (px)"
-							placeholder="defaults to 550"
+							min={200}
+							max={2000}
+							placeholder="min 200, defaults to 550"
 							{...form.getInputProps('width')}
 						/>
 						<Space h="lg" />
 						<NumberInput
+							allowDecimal={false}
+							allowLeadingZeros={false}
+							allowNegative={false}
 							key={form.key('height')}
 							label="Embed Height (px)"
-							placeholder="defaults to 600"
-							width={200}
+							min={200}
+							max={2000}
+							placeholder="min 200, defaults to 600"
 							{...form.getInputProps('height')}
 						/>
 						<Space h="lg" />
@@ -221,7 +230,7 @@ export default function Home() {
 						</Text>
 						<Space h="lg" />
 						<Button type="submit" loading={isLoading}>
-							Submit
+							Get My Code
 						</Button>
 					</Paper>
 				</form>
