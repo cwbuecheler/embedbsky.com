@@ -107,7 +107,14 @@ export default function Home() {
 		setIsLoading(true);
 		setScriptText('');
 		const values = form.values;
-		const resp = await api.createFeed(values.bskyHandle);
+
+		// Check and see if they put a full handle or just a single word. If the latter, add ".bsky.social"
+		let handle = form.values.bskyHandle;
+		if (!handle.includes('.')) {
+			handle += '.bsky.social';
+		}
+
+		const resp = await api.createFeed(handle);
 		if (!resp.success) {
 			setIsLoading(false);
 			showError();
