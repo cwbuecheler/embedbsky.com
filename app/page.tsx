@@ -108,7 +108,7 @@ export default function Home() {
 		setScriptText('');
 		const values = form.values;
 
-		// Check and see if they put a full handle or just a single word. If the latter, add ".bsky.social"
+		// See if they put a full handle or just a single word. If the latter, add ".bsky.social"
 		let handle = form.values.bskyHandle;
 		if (!handle.includes('.')) {
 			handle += '.bsky.social';
