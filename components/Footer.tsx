@@ -1,11 +1,13 @@
 'use client';
 
-import { Container, Group, Anchor } from '@mantine/core';
+import { Anchor, Container, Group, Text } from '@mantine/core';
 import classes from './Footer.module.css';
 
 const links = [
 	{ link: '/', label: 'Home' },
-	{ link: '/faq', label: 'Questions?' },
+	{ link: '/faq/', label: 'FAQ' },
+	{ link: '/terms/', label: 'Terms' },
+	{ link: '/privacy/', label: 'Privacy' },
 ];
 
 const Footer = () => {
@@ -25,10 +27,12 @@ const Footer = () => {
 		<div className={classes.footer}>
 			<Container className={classes.inner}>
 				<Group>
-					&copy; 2024{' '}
-					<Anchor href="https://bsky.app/profile/cwbuecheler.bsky.social">
-						Christopher Buecheler
-					</Anchor>
+					<Text>
+						&copy; 2024{' '}
+						<Anchor href="https://bsky.app/profile/cwbuecheler.bsky.social" target="_blank">
+							Christopher Buecheler
+						</Anchor>
+					</Text>
 				</Group>
 				<Group className={classes.links}>{items}</Group>
 			</Container>

@@ -1,6 +1,3 @@
-import '@mantine/core/styles.css';
-import '@mantine/notifications/styles.css';
-
 // React, Next, Etc.
 import type { Metadata } from 'next';
 
@@ -8,6 +5,8 @@ import type { Metadata } from 'next';
 import { Container, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import theme from '@/theme';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 // Local
 import Footer from '@/components/Footer';
