@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { Anchor, Container, Group, Text } from '@mantine/core';
 import classes from './Footer.module.css';
 
@@ -12,15 +14,11 @@ const links = [
 
 const Footer = () => {
 	const items = links.map((link) => (
-		<Anchor<'a'>
-			c="dimmed"
-			key={link.label}
-			href={link.link}
-			onClick={(event) => event.preventDefault()}
-			size="sm"
-		>
-			{link.label}
-		</Anchor>
+		<Link key={link.label} href={link.link} legacyBehavior passHref>
+			<Anchor c="dimmed" size="sm">
+				{link.label}
+			</Anchor>
+		</Link>
 	));
 
 	return (
