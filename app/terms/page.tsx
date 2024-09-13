@@ -181,8 +181,9 @@ export default function Terms() {
 					</li>
 					<li id="updates">
 						<strong>Updates.</strong> We update our terms from time to time, and will post about
-						these changes to Christopher Buecheler's BlueSky timeline. If you keep using Embed Bsky,
-						you agree to the updated Terms. If you don&apos;t agree, you must stop using Embed Bsky.
+						these changes to Christopher Buecheler&apos;s BlueSky timeline. If you keep using Embed
+						Bsky, you agree to the updated Terms. If you don&apos;t agree, you must stop using Embed
+						Bsky.
 					</li>
 					<li id="warranty-disclaimers">
 						<strong>Warranty Disclaimers.</strong>
