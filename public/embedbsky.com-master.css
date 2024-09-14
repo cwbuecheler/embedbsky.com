@@ -146,7 +146,7 @@
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .timeago a:visited,
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .timeago a:active,
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .timeago a:hover {
-	color: var(--v-color-timestamp-handle);
+	color: var(--v-color-link-timestamp);
 	text-decoration: none;
 }
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .timeago a:hover {
