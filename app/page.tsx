@@ -130,6 +130,13 @@ export default function Home() {
 			showError();
 			return;
 		}
+
+		if (resp.success && resp.data === '403') {
+			setIsLoading(false);
+			showError(resp.error);
+			return;
+		}
+
 		const returnedURI = resp?.data?.savedFeedURI as string;
 		if (!returnedURI) {
 			setIsLoading(false);
