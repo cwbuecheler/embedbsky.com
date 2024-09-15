@@ -12,13 +12,14 @@ import { notifications } from '@mantine/notifications';
 // Local Modules
 import Header from '@/components/Header';
 import SubmissionForm from '@/components/SubmissionForm';
+import TimelineExample from '@/components/TimelineExample';
 import { darkModeColors, lightModeColors } from '@/components/ColorPickers';
 import classes from '@/app/page.module.css';
 import { api } from '@/util/api';
 
 // TS Types
-import { ColorList, FormValues } from '@/types/data';
-import generateCustomCSS from '@/util/generatecustomcss';
+import { FormValues } from '@/types/data';
+import { createStyles, generateCustomCSS } from '@/util/shared';
 
 type ShowJSProps = {
 	embedHTML: string;
@@ -45,28 +46,6 @@ export default function Home() {
 		},
 	});
 
-	// Create styles for use in generated code and example (used w/ custom colors)
-	const createStyles = (): ColorList => {
-		const styles = {
-			background: form.values.colors.background,
-			border: form.values.colors.border,
-			counts: form.values.colors.counts,
-			text: form.values.colors.text,
-			link: form.values.colors.link,
-			linkHover: form.values.colors.linkHover,
-			linkHandleHover: form.values.colors.linkHandleHover,
-			linkHandle: form.values.colors.linkHandle,
-			linkNameHover: form.values.colors.linkNameHover,
-			linkName: form.values.colors.linkName,
-			linkTimestamp: form.values.colors.linkTimestamp,
-			linkTimestampHover: form.values.colors.linkTimestampHover,
-			linkLinkCard: form.values.colors.linkLinkCard,
-			linkLinkCardHover: form.values.colors.linkLinkCardHover,
-			repostHeader: form.values.colors.repostHeader,
-		};
-		return styles;
-	};
-
 	// Display the JS code for the user
 	const generateJS = (
 		returnedURI: string,
@@ -80,7 +59,7 @@ export default function Home() {
 		// handle custom colors
 		if (showColors) {
 			js += '<style type="text/css">';
-			js += generateCustomCSS(createStyles());
+			js += generateCustomCSS(createStyles(form));
 			js += `</style>`;
 			js += `<div id="embedbsky-com-timeline-embed"></div>`;
 		} else {
@@ -183,23 +162,6 @@ export default function Home() {
 		});
 	};
 
-	// Display Component
-	const Example: React.FC<ShowJSProps> = (props) => {
-		const { embedHTML } = props;
-		const classNames = `${classes.embedexample} ${darkmode ? `${classes.darkmode} darkmode` : ''}`;
-		return (
-			<>
-				<link rel="stylesheet" href="/embedbsky.com-master.css" />
-				{showColors ? <style type="text/css">{generateCustomCSS(createStyles())}</style> : null}
-				<div
-					className={classNames}
-					dangerouslySetInnerHTML={{ __html: embedHTML }}
-					id="embedbsky-com-timeline-embed"
-				></div>
-			</>
-		);
-	};
-
 	return (
 		<>
 			<Header activeLink="home" />
@@ -243,7 +205,12 @@ export default function Home() {
 						<div style={{ width: 550 }}>
 							<Title>Example</Title>
 							<Space h="lg" />
-							<Example embedHTML={html} />
+							<TimelineExample
+								darkmode={darkmode}
+								embedHTML={html}
+								form={form}
+								showColors={showColors}
+							/>
 						</div>
 						<div className={classes.codecontainer}>
 							<Title>Embed Code</Title>
