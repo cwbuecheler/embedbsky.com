@@ -1,35 +1,25 @@
 'use client';
 
-// React and 3rd party libraries
+// React & 3rd Party Libraries
 import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 
-// Mantine & related
-import {
-	Anchor,
-	Box,
-	Button,
-	Group,
-	NumberInput,
-	Paper,
-	Space,
-	Switch,
-	Text,
-	TextInput,
-	Title,
-} from '@mantine/core';
+// Mantine & Related
+import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 
 // Local Modules
 import Header from '@/components/Header';
-import ColorPickers, { darkModeColors, lightModeColors } from '@/components/ColorPickers';
+import SubmissionForm from '@/components/SubmissionForm';
+import TimelineExample from '@/components/TimelineExample';
 import classes from '@/app/page.module.css';
+import { darkModeColors, lightModeColors } from '@/components/ColorPickers';
 import { api } from '@/util/api';
+import { createStyles, generateCustomCSS } from '@/util/shared';
 
 // TS Types
-import { ColorList, FormValues } from '@/types/data';
-import generateCustomCSS from '@/util/generatecustomcss';
+import { FormValues } from '@/types/data';
 
 type ShowJSProps = {
 	embedHTML: string;
@@ -56,28 +46,6 @@ export default function Home() {
 		},
 	});
 
-	// Create styles for use in generated code and example (used w/ custom colors)
-	const createStyles = (): ColorList => {
-		const styles = {
-			background: form.values.colors.background,
-			border: form.values.colors.border,
-			counts: form.values.colors.counts,
-			text: form.values.colors.text,
-			link: form.values.colors.link,
-			linkHover: form.values.colors.linkHover,
-			linkHandleHover: form.values.colors.linkHandleHover,
-			linkHandle: form.values.colors.linkHandle,
-			linkNameHover: form.values.colors.linkNameHover,
-			linkName: form.values.colors.linkName,
-			linkTimestamp: form.values.colors.linkTimestamp,
-			linkTimestampHover: form.values.colors.linkTimestampHover,
-			linkLinkCard: form.values.colors.linkLinkCard,
-			linkLinkCardHover: form.values.colors.linkLinkCardHover,
-			repostHeader: form.values.colors.repostHeader,
-		};
-		return styles;
-	};
-
 	// Display the JS code for the user
 	const generateJS = (
 		returnedURI: string,
@@ -91,7 +59,7 @@ export default function Home() {
 		// handle custom colors
 		if (showColors) {
 			js += '<style type="text/css">';
-			js += generateCustomCSS(createStyles());
+			js += generateCustomCSS(createStyles(form));
 			js += `</style>`;
 			js += `<div id="embedbsky-com-timeline-embed"></div>`;
 		} else {
@@ -173,7 +141,6 @@ export default function Home() {
 			return;
 		}
 		const js = generateJS(returnedURI, values.width, values.height, darkmode);
-		console.log(js);
 		setScriptText(js);
 		handleJS(returnedURI);
 		setIsLoading(false);
@@ -194,126 +161,55 @@ export default function Home() {
 		});
 	};
 
-	// Display Component
-	const Example: React.FC<ShowJSProps> = (props) => {
-		const { embedHTML } = props;
-		const classNames = `${classes.embedexample} ${darkmode ? `${classes.darkmode} darkmode` : ''}`;
-		return (
-			<>
-				<link rel="stylesheet" href="/embedbsky.com-master.css" />
-				{showColors ? <style type="text/css">{generateCustomCSS(createStyles())}</style> : null}
-				<div
-					className={classNames}
-					dangerouslySetInnerHTML={{ __html: embedHTML }}
-					id="embedbsky-com-timeline-embed"
-				></div>
-			</>
-		);
-	};
-
 	return (
 		<>
 			<Header activeLink="home" />
 			<Box mih={600} pl={20} pr={20}>
-				<form onSubmit={handleSubmit}>
-					<Title mb={20} order={1}>
-						Embed My BlueSky Timeline
-					</Title>
-					<Space h="lg" />
-					<Text size="lg">
-						Are you looking for a way to embed the last thirty posts and reposts from your BlueSky
-						timeline in your blog or website? Well, look no further! Just fill in the form below and
-						then paste the generated code into your site&apos;s HTML, and you&apos;ll get exactly
-						that. Note that once timelines are generated, they update about every five minutes, so
-						if you don&apos;t see a post immediately, wait a few and then check the timeline again.
-						Questions? Check out the{' '}
-						<Link href="/faq" passHref legacyBehavior>
-							<Anchor>FAQ</Anchor>
-						</Link>
-						.
-					</Text>
-					<Space h="lg" />
-					<Text size="lg">
-						We&apos;re very much in beta. If you find issues, let me know, or feel free to{' '}
-						<Anchor href="https://github.com/cwbuecheler/embedbsky.com/issues" target="_blank">
-							submit them on Github
-						</Anchor>
-					</Text>
-					<Space h="lg" />
-					<Paper className={classes.formwrap} p="xl" shadow="sm">
-						<TextInput
-							key={form.key('bskyHandle')}
-							label="BlueSky Handle"
-							placeholder="someone.bksy.social"
-							required
-							withAsterisk
-							{...form.getInputProps('bskyHandle')}
-						/>
-						<Space h="lg" />
-						<NumberInput
-							allowDecimal={false}
-							allowLeadingZeros={false}
-							allowNegative={false}
-							key={form.key('width')}
-							label="Embed Width (px)"
-							min={200}
-							max={2000}
-							maxLength={4}
-							placeholder="min 200, max 2000, defaults to 550"
-							{...form.getInputProps('width')}
-						/>
-						<Space h="lg" />
-						<NumberInput
-							allowDecimal={false}
-							allowLeadingZeros={false}
-							allowNegative={false}
-							key={form.key('height')}
-							label="Embed Height (px)"
-							min={200}
-							max={2000}
-							maxLength={4}
-							placeholder="min 200, max 2000, defaults to 600"
-							{...form.getInputProps('height')}
-						/>
-						<Space h="lg" />
-						<Switch
-							label="Enable Dark Mode"
-							disabled={showColors}
-							checked={darkmode}
-							onChange={handleSetDarkmode}
-						/>
-						<Space h="sm" />
-						<Text size="xs">
-							Note: this will change the example dynamically but you must resubmit to change the
-							embed code. Also, if you have custom colors set, this will overwrite them.
-						</Text>
-						<Space h="lg" />
-						<Switch label="Set My Own Colors" checked={showColors} onChange={handleSetShowColors} />
-						<Text size="xs">
-							Note: this significantly lengthens the embed code. It will also change the example
-							dynamically but you must resubmit to change the embed code.
-						</Text>
-						<Space h="lg" />
-						{showColors ? (
-							<Box>
-								<Title order={3}>Colors</Title>
-								<Space h="sm" />
-								<ColorPickers darkmode={darkmode} form={form} />
-							</Box>
-						) : null}
-						<Space h="sm" />
-						<Button type="submit" loading={isLoading}>
-							Get My Code
-						</Button>
-					</Paper>
-				</form>
+				<Title mb={20} order={1}>
+					Embed My BlueSky Timeline
+				</Title>
+				<Space h="lg" />
+				<Text size="lg">
+					Are you looking for a way to embed the last thirty posts and reposts from your BlueSky
+					timeline in your blog or website? Well, look no further! Just fill in the form below and
+					then paste the generated code into your site&apos;s HTML, and you&apos;ll get exactly
+					that. Note that once timelines are generated, they update about every five minutes, so if
+					you don&apos;t see a post immediately, wait a few and then check the timeline again.
+					Questions? Check out the{' '}
+					<Link href="/faq" passHref legacyBehavior>
+						<Anchor>FAQ</Anchor>
+					</Link>
+					.
+				</Text>
+				<Space h="lg" />
+				<Text size="lg">
+					We&apos;re very much in beta. If you find issues, let me know, or feel free to{' '}
+					<Anchor href="https://github.com/cwbuecheler/embedbsky.com/issues" target="_blank">
+						submit them on Github
+					</Anchor>
+				</Text>
+				<Space h="lg" />
+				<SubmissionForm
+					darkmode={darkmode}
+					form={form}
+					handleSetDarkmode={handleSetDarkmode}
+					handleSetShowColors={handleSetShowColors}
+					handleSubmit={handleSubmit}
+					isLoading={isLoading}
+					showColors={showColors}
+				/>
 				<Space h="lg" />
 				{scriptText ? (
 					<Group align="top" gap="xl" wrap="nowrap">
 						<div style={{ width: 550 }}>
 							<Title>Example</Title>
 							<Space h="lg" />
-							<Example embedHTML={html} />
+							<TimelineExample
+								darkmode={darkmode}
+								embedHTML={html}
+								form={form}
+								showColors={showColors}
+							/>
 						</div>
 						<div className={classes.codecontainer}>
 							<Title>Embed Code</Title>

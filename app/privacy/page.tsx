@@ -1,5 +1,5 @@
-// Mantine & related
-import { Anchor, Box, Text, Title } from '@mantine/core';
+// Mantine & Related
+import { Box, Text, Title } from '@mantine/core';
 
 // Local Modules
 import Header from '@/components/Header';

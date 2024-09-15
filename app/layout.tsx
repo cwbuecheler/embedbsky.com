@@ -1,14 +1,14 @@
-// React, Next, Etc.
+// React & 3rd Party Libraries
 import type { Metadata } from 'next';
 
-// Mantine and related
+// Mantine and Related
 import { Container, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import theme from '@/theme';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 
-// Local
+// Local Modules
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {

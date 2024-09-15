@@ -1,6 +1,8 @@
-import { ColorInput, Space } from '@mantine/core';
+// Mantine & Related
+import { ColorInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 
+// TS Types
 import { ColorList, ColorObj, FormValues } from '@/types/data';
 
 type Props = {
@@ -46,7 +48,6 @@ export const lightModeColors: ColorList = {
 
 const ColorPickers: React.FC<Props> = (props) => {
 	const { darkmode, form } = props;
-	console.log(darkmode);
 
 	const colors = [
 		{ label: 'Background', name: 'background' },
