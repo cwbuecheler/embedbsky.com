@@ -19,7 +19,7 @@ import { UseFormReturnType } from '@mantine/form';
 
 // Local Modules
 import ColorPickers from '@/components/ColorPickers';
-import classes from '@/app/page.module.css';
+import classes from '@/components/SubmissionForm.module.css';
 
 // TS Types
 import { FormValues } from '@/types/data';
