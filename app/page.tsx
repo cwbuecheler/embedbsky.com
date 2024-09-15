@@ -1,10 +1,10 @@
 'use client';
 
-// React and 3rd party libraries
+// React & 3rd Party Libraries
 import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 
-// Mantine & related
+// Mantine & Related
 import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
@@ -13,13 +13,13 @@ import { notifications } from '@mantine/notifications';
 import Header from '@/components/Header';
 import SubmissionForm from '@/components/SubmissionForm';
 import TimelineExample from '@/components/TimelineExample';
-import { darkModeColors, lightModeColors } from '@/components/ColorPickers';
 import classes from '@/app/page.module.css';
+import { darkModeColors, lightModeColors } from '@/components/ColorPickers';
 import { api } from '@/util/api';
+import { createStyles, generateCustomCSS } from '@/util/shared';
 
 // TS Types
 import { FormValues } from '@/types/data';
-import { createStyles, generateCustomCSS } from '@/util/shared';
 
 type ShowJSProps = {
 	embedHTML: string;

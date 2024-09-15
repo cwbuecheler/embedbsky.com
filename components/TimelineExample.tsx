@@ -1,14 +1,14 @@
 'use client';
 
-// Mantine & Associated
+// Mantine & Related
 import { UseFormReturnType } from '@mantine/form';
 
 // Local Modules
 import classes from '@/components/TimelineExample.module.css';
+import { createStyles, generateCustomCSS } from '@/util/shared';
 
 // TS Types
 import { FormValues } from '@/types/data';
-import { createStyles, generateCustomCSS } from '@/util/shared';
 
 type TimelineExampleProps = {
 	darkmode: boolean;

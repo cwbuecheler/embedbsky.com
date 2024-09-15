@@ -1,9 +1,9 @@
 'use client';
 
-// React and 3rd party libraries
+// React & 3rd Party Libraries
 import { ChangeEventHandler, FormEvent } from 'react';
 
-// Mantine & related
+// Mantine & Related
 import {
 	Box,
 	Button,

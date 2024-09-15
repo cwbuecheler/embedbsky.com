@@ -1,4 +1,4 @@
-// Mantine & related
+// Mantine & Related
 import { Anchor, Box, Text, Title } from '@mantine/core';
 
 // Local Modules
