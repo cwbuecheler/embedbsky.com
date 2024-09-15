@@ -1,8 +1,12 @@
 'use client';
 
+// React & 3rd Party Libraries
 import Link from 'next/link';
 
+// Mantine & Related
 import { Anchor, Container, Group, Text } from '@mantine/core';
+
+// Local Modules
 import classes from './Footer.module.css';
 
 const links = [

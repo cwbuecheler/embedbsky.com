@@ -1,10 +1,10 @@
 'use client';
 
-// React and similar
+// React & 3rd Party Libraries
 import { useState } from 'react';
 import Link from 'next/link';
 
-// Mantine
+// Mantine & Related
 import { Burger, Container, Group, Image } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './Header.module.css';
@@ -16,6 +16,8 @@ type Link = {
 
 type Links = {
 	[key: string]: Link;
+	home: Link;
+	faq: Link;
 };
 
 type Props = {
@@ -47,8 +49,6 @@ const Header: React.FC<Props> = (props) => {
 		};
 		linksArray.push(obj);
 	}
-
-	const handleLinkClick = (link: any) => {};
 
 	const items = linksArray.map((link) => (
 		<Link
