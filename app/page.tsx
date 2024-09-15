@@ -21,10 +21,6 @@ import { createStyles, generateCustomCSS } from '@/util/shared';
 // TS Types
 import { FormValues } from '@/types/data';
 
-type ShowJSProps = {
-	embedHTML: string;
-};
-
 export default function Home() {
 	const [darkmode, setDarkmode] = useState<boolean>(false);
 	const [html, setHtml] = useState<string>('');
