@@ -7,6 +7,13 @@ const handleFetchResponse = async (resp: Response) => {
 		const json = await resp.json();
 		return { data: json.data, error: '', success: true };
 	}
+	if (resp.status === 403) {
+		return {
+			data: '403',
+			error: 'Sorry, this user has their timeline set to viewable by authenticated users only',
+			success: true,
+		};
+	}
 	return { data: '', error: `Fetch - ${resp.status} - ${resp.statusText}`, success: false };
 };
 
