@@ -141,7 +141,6 @@ export default function Home() {
 			return;
 		}
 		const js = generateJS(returnedURI, values.width, values.height, darkmode);
-		console.log(js);
 		setScriptText(js);
 		handleJS(returnedURI);
 		setIsLoading(false);

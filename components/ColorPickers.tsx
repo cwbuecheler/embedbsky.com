@@ -48,7 +48,6 @@ export const lightModeColors: ColorList = {
 
 const ColorPickers: React.FC<Props> = (props) => {
 	const { darkmode, form } = props;
-	console.log(darkmode);
 
 	const colors = [
 		{ label: 'Background', name: 'background' },
