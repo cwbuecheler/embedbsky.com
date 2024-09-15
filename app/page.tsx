@@ -5,25 +5,14 @@ import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 
 // Mantine & related
-import {
-	Anchor,
-	Box,
-	Button,
-	Group,
-	NumberInput,
-	Paper,
-	Space,
-	Switch,
-	Text,
-	TextInput,
-	Title,
-} from '@mantine/core';
+import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 
 // Local Modules
 import Header from '@/components/Header';
-import ColorPickers, { darkModeColors, lightModeColors } from '@/components/ColorPickers';
+import SubmissionForm from '@/components/SubmissionForm';
+import { darkModeColors, lightModeColors } from '@/components/ColorPickers';
 import classes from '@/app/page.module.css';
 import { api } from '@/util/api';
 
@@ -215,98 +204,39 @@ export default function Home() {
 		<>
 			<Header activeLink="home" />
 			<Box mih={600} pl={20} pr={20}>
-				<form onSubmit={handleSubmit}>
-					<Title mb={20} order={1}>
-						Embed My BlueSky Timeline
-					</Title>
-					<Space h="lg" />
-					<Text size="lg">
-						Are you looking for a way to embed the last thirty posts and reposts from your BlueSky
-						timeline in your blog or website? Well, look no further! Just fill in the form below and
-						then paste the generated code into your site&apos;s HTML, and you&apos;ll get exactly
-						that. Note that once timelines are generated, they update about every five minutes, so
-						if you don&apos;t see a post immediately, wait a few and then check the timeline again.
-						Questions? Check out the{' '}
-						<Link href="/faq" passHref legacyBehavior>
-							<Anchor>FAQ</Anchor>
-						</Link>
-						.
-					</Text>
-					<Space h="lg" />
-					<Text size="lg">
-						We&apos;re very much in beta. If you find issues, let me know, or feel free to{' '}
-						<Anchor href="https://github.com/cwbuecheler/embedbsky.com/issues" target="_blank">
-							submit them on Github
-						</Anchor>
-					</Text>
-					<Space h="lg" />
-					<Paper className={classes.formwrap} p="xl" shadow="sm">
-						<TextInput
-							key={form.key('bskyHandle')}
-							label="BlueSky Handle"
-							placeholder="someone.bksy.social"
-							required
-							withAsterisk
-							{...form.getInputProps('bskyHandle')}
-						/>
-						<Space h="lg" />
-						<NumberInput
-							allowDecimal={false}
-							allowLeadingZeros={false}
-							allowNegative={false}
-							key={form.key('width')}
-							label="Embed Width (px)"
-							min={200}
-							max={2000}
-							maxLength={4}
-							placeholder="min 200, max 2000, defaults to 550"
-							{...form.getInputProps('width')}
-						/>
-						<Space h="lg" />
-						<NumberInput
-							allowDecimal={false}
-							allowLeadingZeros={false}
-							allowNegative={false}
-							key={form.key('height')}
-							label="Embed Height (px)"
-							min={200}
-							max={2000}
-							maxLength={4}
-							placeholder="min 200, max 2000, defaults to 600"
-							{...form.getInputProps('height')}
-						/>
-						<Space h="lg" />
-						<Switch
-							label="Enable Dark Mode"
-							disabled={showColors}
-							checked={darkmode}
-							onChange={handleSetDarkmode}
-						/>
-						<Space h="sm" />
-						<Text size="xs">
-							Note: this will change the example dynamically but you must resubmit to change the
-							embed code. Also, if you have custom colors set, this will overwrite them.
-						</Text>
-						<Space h="lg" />
-						<Switch label="Set My Own Colors" checked={showColors} onChange={handleSetShowColors} />
-						<Text size="xs">
-							Note: this significantly lengthens the embed code. It will also change the example
-							dynamically but you must resubmit to change the embed code.
-						</Text>
-						<Space h="lg" />
-						{showColors ? (
-							<Box>
-								<Title order={3}>Colors</Title>
-								<Space h="sm" />
-								<ColorPickers darkmode={darkmode} form={form} />
-							</Box>
-						) : null}
-						<Space h="sm" />
-						<Button type="submit" loading={isLoading}>
-							Get My Code
-						</Button>
-					</Paper>
-				</form>
+				<Title mb={20} order={1}>
+					Embed My BlueSky Timeline
+				</Title>
+				<Space h="lg" />
+				<Text size="lg">
+					Are you looking for a way to embed the last thirty posts and reposts from your BlueSky
+					timeline in your blog or website? Well, look no further! Just fill in the form below and
+					then paste the generated code into your site&apos;s HTML, and you&apos;ll get exactly
+					that. Note that once timelines are generated, they update about every five minutes, so if
+					you don&apos;t see a post immediately, wait a few and then check the timeline again.
+					Questions? Check out the{' '}
+					<Link href="/faq" passHref legacyBehavior>
+						<Anchor>FAQ</Anchor>
+					</Link>
+					.
+				</Text>
+				<Space h="lg" />
+				<Text size="lg">
+					We&apos;re very much in beta. If you find issues, let me know, or feel free to{' '}
+					<Anchor href="https://github.com/cwbuecheler/embedbsky.com/issues" target="_blank">
+						submit them on Github
+					</Anchor>
+				</Text>
+				<Space h="lg" />
+				<SubmissionForm
+					darkmode={darkmode}
+					form={form}
+					handleSetDarkmode={handleSetDarkmode}
+					handleSetShowColors={handleSetShowColors}
+					handleSubmit={handleSubmit}
+					isLoading={isLoading}
+					showColors={showColors}
+				/>
 				<Space h="lg" />
 				{scriptText ? (
 					<Group align="top" gap="xl" wrap="nowrap">
