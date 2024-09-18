@@ -13,6 +13,66 @@
 	overflow-y: scroll;
 }
 
+/* Header showing who's timeline it is ========================================================= */
+#embedbsky-com-timeline-embed .header {
+	border-bottom: 2px solid var(--v-color-border);
+	box-sizing: content-box;
+	display: flex;
+	height: 62px;
+	justify-content: left;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	width: 100%;
+}
+#embedbsky-com-timeline-embed .header .avatar {
+	font-size: 0;
+	height: 60px;
+	margin: 0 10px 0 0;
+	padding: 0;
+	width: 60px;
+}
+#embedbsky-com-timeline-embed .header .avatar img {
+	border-radius: 30px;
+	height: 60px;
+	width: 60px;
+}
+#embedbsky-com-timeline-embed .header .text {
+	display: flex;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
+		Arial, sans-serif;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#embedbsky-com-timeline-embed .header .text a.name {
+	align-self: flex-start;
+	color: var(--v-color-link-name);
+	font-size: 32px;
+	font-weight: 500;
+	letter-spacing: 0.25px;
+	line-height: 32px;
+}
+#embedbsky-com-timeline-embed .header .text a.name:link,
+#embedbsky-com-timeline-embed .header .text a.name:visited,
+#embedbsky-com-timeline-embed .header .text a.name:active {
+	text-decoration: none;
+}
+#embedbsky-com-timeline-embed .header .text a.name:hover {
+	text-decoration: underline;
+}
+#embedbsky-com-timeline-embed .header .text a.handle {
+	color: var(--v-color-link-handle);
+	font-size: 18px;
+}
+#embedbsky-com-timeline-embed .header .text a.handle:link,
+#embedbsky-com-timeline-embed .header .text a.handle:visited,
+#embedbsky-com-timeline-embed .header .text a.handle:active {
+	text-decoration: none;
+}
+#embedbsky-com-timeline-embed .header .text a.handle:hover {
+	text-decoration: underline;
+}
+
 /* Every individual post has a container ======================================================= */
 #embedbsky-com-timeline-embed .postcontainer {
 	background: var(--v-color-background);
