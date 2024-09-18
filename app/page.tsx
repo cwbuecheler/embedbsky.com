@@ -136,6 +136,7 @@ export default function Home() {
 			showError(resp.error);
 			return;
 		}
+		console.log(resp);
 
 		const returnedURI = resp?.data?.savedFeedURI as string;
 		if (!returnedURI) {
