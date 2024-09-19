@@ -37,20 +37,25 @@
 	width: 60px;
 }
 #embedbsky-com-timeline-embed .header .text {
-	display: flex;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
 		Arial, sans-serif;
-	flex-direction: column;
-	justify-content: center;
+	line-height: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 #embedbsky-com-timeline-embed .header .text a.name {
-	align-self: flex-start;
 	color: var(--v-color-link-name);
-	font-size: 32px;
+	display: block;
+	font-size: clamp(12px, 10vw, 32px);
 	font-weight: 500;
 	letter-spacing: 0.25px;
 	line-height: 32px;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 #embedbsky-com-timeline-embed .header .text a.name:link,
 #embedbsky-com-timeline-embed .header .text a.name:visited,
@@ -63,6 +68,9 @@
 #embedbsky-com-timeline-embed .header .text a.handle {
 	color: var(--v-color-link-handle);
 	font-size: 18px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 #embedbsky-com-timeline-embed .header .text a.handle:link,
 #embedbsky-com-timeline-embed .header .text a.handle:visited,
