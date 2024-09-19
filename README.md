@@ -11,7 +11,8 @@ Embed your BlueSky feed in any website.
 - [x] Add FAQ
 - [x] Improve front-end visuals
 - [x] Add Dark Mode (basic)
-- [ ] Add secondar dark mode
+- [ ] Add OAuth Verification
+- [ ] Add secondary dark mode
 - [ ] Improve TypeScript defs - hopefully by using AtProto's defs
 - [ ] Allow customization of content display (eg: hide nudity)
 - [ ] Write a README that's in any way useful to anyone

@@ -1,53 +1,39 @@
 'use client';
 
-// React and 3rd party libraries
-import { FormEvent, useEffect, useState } from 'react';
+// React & 3rd Party Libraries
+import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 
-// Mantine & related
-import {
-	Anchor,
-	Box,
-	Button,
-	Group,
-	NumberInput,
-	Paper,
-	Space,
-	Switch,
-	Text,
-	TextInput,
-	Title,
-} from '@mantine/core';
+// Mantine & Related
+import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 
 // Local Modules
 import Header from '@/components/Header';
 import LoginBox from '@/components/LoginBox';
+import SubmissionForm from '@/components/SubmissionForm';
+import TimelineExample from '@/components/TimelineExample';
 import classes from '@/app/page.module.css';
+import { darkModeColors, lightModeColors } from '@/components/ColorPickers';
 import { api } from '@/util/api';
+import { createStyles, generateCustomCSS } from '@/util/shared';
 
-type FormValues = {
-	bskyHandle: string;
-	darkmode: boolean;
-	height: number | null;
-	width: number | null;
-};
-
-type ShowJSProps = {
-	embedHTML: string;
-};
+// TS Types
+import { FormValues } from '@/types/data';
 
 export default function Home() {
+	const [darkmode, setDarkmode] = useState<boolean>(false);
 	const [html, setHtml] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const [scriptText, setScriptText] = useState<string>('');
+	const [showColors, setShowColors] = useState<boolean>(false);
 
 	const form = useForm<FormValues>({
 		initialValues: {
 			bskyHandle: '',
-			darkmode: false,
+			colors: lightModeColors,
 			height: null,
 			width: null,
 		},
@@ -68,7 +54,15 @@ export default function Home() {
 		let w = width ? width : 550;
 		let h = height ? height : 600;
 		let js = '<link rel="stylesheet" href="https://embedbsky.com/embedbsky.com-master-min.css" />';
-		js += `<div id="embedbsky-com-timeline-embed"${darkmode ? ' class="darkmode"' : ''}></div>`;
+		// handle custom colors
+		if (showColors) {
+			js += '<style type="text/css">';
+			js += generateCustomCSS(createStyles(form));
+			js += `</style>`;
+			js += `<div id="embedbsky-com-timeline-embed"></div>`;
+		} else {
+			js += `<div id="embedbsky-com-timeline-embed"${darkmode ? ' class="darkmode"' : ''}></div>`;
+		}
 		js += '<script>';
 		js += `let containerWidth=${w},containerHeight=${h};`;
 		js += 'const getHtml=async t=>{';
@@ -97,10 +91,26 @@ export default function Home() {
 		if (htmlResp.status !== 200) {
 			return '<p><strong>No feed data could be located</p></strong>';
 		}
-		const newHtml = await htmlResp.text();
+		let newHtml = await htmlResp.text();
 
 		// Add the html to state so we can display the timeline at the same time we display the code
 		setHtml(newHtml);
+	};
+
+	// Handle darkmode
+	const handleSetDarkmode = () => {
+		if (darkmode) {
+			form.values.colors = lightModeColors;
+		} else {
+			form.values.colors = darkModeColors;
+		}
+
+		setDarkmode(!darkmode);
+	};
+
+	// Handle show colors
+	const handleSetShowColors = () => {
+		setShowColors(!showColors);
 	};
 
 	// Handle Form Submission
@@ -122,13 +132,20 @@ export default function Home() {
 			showError();
 			return;
 		}
+
+		if (resp.success && resp.data === '403') {
+			setIsLoading(false);
+			showError(resp.error);
+			return;
+		}
+
 		const returnedURI = resp?.data?.savedFeedURI as string;
 		if (!returnedURI) {
 			setIsLoading(false);
 			showError();
 			return;
 		}
-		const js = generateJS(returnedURI, values.width, values.height, values.darkmode);
+		const js = generateJS(returnedURI, values.width, values.height, darkmode);
 		setScriptText(js);
 		handleJS(returnedURI);
 		setIsLoading(false);
@@ -147,25 +164,6 @@ export default function Home() {
 			title: 'Error',
 			message,
 		});
-	};
-
-	// Display Component
-	const Example: React.FC<ShowJSProps> = (props) => {
-		const { embedHTML } = props;
-		const classNames = `${classes.embedexample} ${
-			form.values.darkmode ? `${classes.darkmode} darkmode` : ''
-		}`;
-		return (
-			<>
-				{/* eslint-disable-next-line */}
-				<link rel="stylesheet" href="/embedbsky.com-master.css" />
-				<div
-					className={classNames}
-					dangerouslySetInnerHTML={{ __html: embedHTML }}
-					id="embedbsky-com-timeline-embed"
-				></div>
-			</>
-		);
 	};
 
 	return (
@@ -197,53 +195,15 @@ export default function Home() {
 				</Text>
 				<Space h="lg" />
 				{isLoggedIn ? (
-					<Paper className={classes.formwrap} p="xl" shadow="sm">
-						<form onSubmit={handleSubmit}>
-							<TextInput
-								key={form.key('bskyHandle')}
-								label="BlueSky Handle"
-								placeholder="someone.bksy.social"
-								required
-								withAsterisk
-								{...form.getInputProps('bskyHandle')}
-							/>
-							<Space h="lg" />
-							<NumberInput
-								allowDecimal={false}
-								allowLeadingZeros={false}
-								allowNegative={false}
-								key={form.key('width')}
-								label="Embed Width (px)"
-								min={200}
-								max={2000}
-								placeholder="min 200, defaults to 550"
-								{...form.getInputProps('width')}
-							/>
-							<Space h="lg" />
-							<NumberInput
-								allowDecimal={false}
-								allowLeadingZeros={false}
-								allowNegative={false}
-								key={form.key('height')}
-								label="Embed Height (px)"
-								min={200}
-								max={2000}
-								placeholder="min 200, defaults to 600"
-								{...form.getInputProps('height')}
-							/>
-							<Space h="lg" />
-							<Switch label="Enable Dark Mode" {...form.getInputProps('darkmode')} />
-							<Space h="sm" />
-							<Text size="xs">
-								Note: this will change the example dynamically but you must resubmit to change the
-								embed code
-							</Text>
-							<Space h="lg" />
-							<Button type="submit" loading={isLoading}>
-								Get My Code
-							</Button>
-						</form>
-					</Paper>
+					<SubmissionForm
+						darkmode={darkmode}
+						form={form}
+						handleSetDarkmode={handleSetDarkmode}
+						handleSetShowColors={handleSetShowColors}
+						handleSubmit={handleSubmit}
+						isLoading={isLoading}
+						showColors={showColors}
+					/>
 				) : (
 					<LoginBox />
 				)}
@@ -253,7 +213,12 @@ export default function Home() {
 						<div style={{ width: 550 }}>
 							<Title>Example</Title>
 							<Space h="lg" />
-							<Example embedHTML={html} />
+							<TimelineExample
+								darkmode={darkmode}
+								embedHTML={html}
+								form={form}
+								showColors={showColors}
+							/>
 						</div>
 						<div className={classes.codecontainer}>
 							<Title>Embed Code</Title>
@@ -263,8 +228,9 @@ export default function Home() {
 							<div className={classes.scriptText}>
 								<textarea
 									className={classes.embedcode}
-									onFocus={handleCodeFocus}
 									defaultValue={scriptText}
+									onFocus={handleCodeFocus}
+									spellCheck={false}
 								></textarea>
 							</div>
 						</div>

@@ -1,4 +1,4 @@
-// Mantine & related
+// Mantine & Related
 import { Anchor, Box, Text, Title } from '@mantine/core';
 
 // Local Modules
@@ -58,17 +58,11 @@ export default function FAQ() {
 					wanted something that would display something even if the BlueSky API temporarily went
 					down (AWS is less likely to encounter such issues). The second is I wanted to be able to
 					generate custom CSS on a per-user basis so that only power users need tinker with the code
-					to make visual changes. The third is that I wanted to work exclusively in vanilla JS / CS
+					to make visual changes. The third is that I wanted to work exclusively in vanilla JS / CSS
 					(well, okay, I worked in TypeScript and React, but the output is intentionally and
 					explicitly vanilla - no 3rd party libraries needed, not even AtProto). The fourth is that
 					I wanted to teach myself some stuff about generating and serving static content from
 					CloudFront.
-				</Text>
-				<Title mb={10} order={2}>
-					Why can&apos;t I set my own colors?
-				</Title>
-				<Text mb={20} size="lg">
-					Coming soon!
 				</Text>
 				<Title mb={10} order={2}>
 					Can I contribute?
