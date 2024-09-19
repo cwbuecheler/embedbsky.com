@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 		siteName: 'Embed Bsky',
 		images: [
 			{
-				url: 'https://embedbsky.com/embed_bsky_og.jpg',
+				url: 'https://embedbsky.com/embed_bsky_og.png',
 				width: 800,
 				height: 600,
 			},
