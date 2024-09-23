@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 // Mantine & Related
 import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useLocalStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 
 // Local Modules
@@ -37,7 +38,24 @@ export default function Home() {
 	const [scriptText, setScriptText] = useState<string>('');
 	const [showColors, setShowColors] = useState<boolean>(false);
 
-	// TODO - verify state and code
+	// Localstorage for DID & handle (so they don't have to type it twice)
+	const [did, setDID] = useLocalStorage({ key: 'did', defaultValue: '' });
+	const [lsHandle, setLSHandle] = useLocalStorage({ key: 'bskyHandle', defaultValue: '' });
+
+	// Set up form for getting the feed
+	const feedForm = useForm<FormValues>({
+		initialValues: {
+			bskyHandle: '',
+			colors: lightModeColors,
+			height: null,
+			width: null,
+		},
+		validate: {
+			bskyHandle: (value) => {
+				return value.length > 6 ? '' : 'Handle must be at least 6 characters long.';
+			},
+		},
+	});
 
 	// Get querystring info for oauth if it exists and then remove it from the querystring
 	const searchParams = useSearchParams();
@@ -48,7 +66,7 @@ export default function Home() {
 	}
 
 	useEffect(() => {
-		if (hasReadQS && !qCode && !qState) {
+		if (hasReadQS && !qCode && !qISS && !qState) {
 			setQCode(searchParams.get('code') || '');
 			setQISS(searchParams.get('iss') || '');
 			setQState(searchParams.get('state') || '');
@@ -62,6 +80,8 @@ export default function Home() {
 			const resp = await api.verifyLogin(qCode, qISS, qState);
 			if (resp.success) {
 				setIsLoggedIn(true);
+				setDID(resp.data.did);
+				feedForm.values.bskyHandle = lsHandle;
 				setIsLoading(false);
 			} else {
 				setIsLoading(false);
@@ -71,20 +91,6 @@ export default function Home() {
 			verifyLogin();
 		}
 	}, [hasReadQS, qCode, qISS, qState]);
-
-	const form = useForm<FormValues>({
-		initialValues: {
-			bskyHandle: '',
-			colors: lightModeColors,
-			height: null,
-			width: null,
-		},
-		validate: {
-			bskyHandle: (value) => {
-				return value.length > 6 ? '' : 'Handle must be at least 6 characters long.';
-			},
-		},
-	});
 
 	// Display the JS code for the user
 	const generateJS = (
@@ -99,7 +105,7 @@ export default function Home() {
 		// handle custom colors
 		if (showColors) {
 			js += '<style type="text/css">';
-			js += generateCustomCSS(createStyles(form));
+			js += generateCustomCSS(createStyles(feedForm));
 			js += `</style>`;
 			js += `<div id="embedbsky-com-timeline-embed"></div>`;
 		} else {
@@ -142,6 +148,8 @@ export default function Home() {
 	// Handle logging in
 	const handleLoginSubmit = async (bskyHandle: string) => {
 		setIsLoading(true);
+		// save the handle in LS so they don't have to enter it twice
+		setLSHandle(bskyHandle);
 		const resp = await api.login(bskyHandle);
 		if (!resp.success) {
 			console.error(resp.error);
@@ -153,9 +161,9 @@ export default function Home() {
 	// Handle darkmode
 	const handleSetDarkmode = () => {
 		if (darkmode) {
-			form.values.colors = lightModeColors;
+			feedForm.values.colors = lightModeColors;
 		} else {
-			form.values.colors = darkModeColors;
+			feedForm.values.colors = darkModeColors;
 		}
 
 		setDarkmode(!darkmode);
@@ -171,15 +179,15 @@ export default function Home() {
 		e.preventDefault();
 		setIsLoading(true);
 		setScriptText('');
-		const values = form.values;
+		const values = feedForm.values;
 
 		// See if they put a full handle or just a single word. If the latter, add ".bsky.social"
-		let handle = form.values.bskyHandle;
+		let handle = feedForm.values.bskyHandle;
 		if (!handle.includes('.')) {
 			handle += '.bsky.social';
 		}
 
-		const resp = await api.createFeed(handle);
+		const resp = await api.createFeed(handle, did);
 		if (!resp.success) {
 			setIsLoading(false);
 			showError();
@@ -250,7 +258,7 @@ export default function Home() {
 				{isLoggedIn ? (
 					<SubmissionForm
 						darkmode={darkmode}
-						form={form}
+						form={feedForm}
 						handleSetDarkmode={handleSetDarkmode}
 						handleSetShowColors={handleSetShowColors}
 						handleSubmit={handleSubmit}
@@ -269,7 +277,7 @@ export default function Home() {
 							<TimelineExample
 								darkmode={darkmode}
 								embedHTML={html}
-								form={form}
+								form={feedForm}
 								showColors={showColors}
 							/>
 						</div>

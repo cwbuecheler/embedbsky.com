@@ -1,5 +1,5 @@
 export type API = {
-	createFeed: (bskyId: string) => Promise<APIResponse>;
+	createFeed: (bskyId: string, did: string) => Promise<APIResponse>;
 	login: (bskyId: string) => Promise<APIResponse>;
 	lookupFeed: (bskyId: string) => Promise<APIResponse>;
 	verifyLogin: (code: string, iss: string, state: string) => Promise<APIResponse>;

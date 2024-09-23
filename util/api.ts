@@ -18,9 +18,17 @@ const handleFetchResponse = async (resp: Response) => {
 };
 
 export const api: API = {
-	createFeed: async (bskyId: string) => {
+	createFeed: async (bskyId: string, did: string) => {
 		try {
-			const response = await fetch(`${API_URI}/create/${bskyId}`);
+			const response = await fetch(`${API_URI}/create/${bskyId}`, {
+				body: JSON.stringify({
+					did,
+				}),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			});
 			const handlerResp = await handleFetchResponse(response);
 			if (!handlerResp.success) {
 				throw new Error(handlerResp.error || 'API - An unknown error occurred - createFeed');
