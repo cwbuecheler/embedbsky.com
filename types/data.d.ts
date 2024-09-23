@@ -1,7 +1,8 @@
 export type API = {
-	[key: string]: (...args: any[]) => Promise<APIResponse>;
-	lookupFeed: (feedId: string) => Promise<APIResponse>;
-	createFeed: (feedId: string) => Promise<APIResponse>;
+	createFeed: (bskyId: string) => Promise<APIResponse>;
+	login: (bskyId: string) => Promise<APIResponse>;
+	lookupFeed: (bskyId: string) => Promise<APIResponse>;
+	verifyLogin: (code: string, iss: string, state: string) => Promise<APIResponse>;
 };
 
 export type APIResponse = {
@@ -15,18 +16,18 @@ export type ColorList = {
 	background: string;
 	border: string;
 	counts: string;
-	text: string;
 	link: string;
-	linkHover: string;
-	linkHandleHover: string;
 	linkHandle: string;
-	linkNameHover: string;
-	linkName: string;
-	linkTimestamp: string;
-	linkTimestampHover: string;
+	linkHandleHover: string;
+	linkHover: string;
 	linkLinkCard: string;
 	linkLinkCardHover: string;
+	linkName: string;
+	linkNameHover: string;
+	linkTimestamp: string;
+	linkTimestampHover: string;
 	repostHeader: string;
+	text: string;
 };
 
 export type ColorObj = {
@@ -37,25 +38,7 @@ export type ColorObj = {
 
 export type FormValues = {
 	bskyHandle: string;
-	colors: FormColors;
+	colors: ColorList;
 	height: number | null;
 	width: number | null;
-};
-
-export type FormColors = {
-	background: string;
-	border: string;
-	counts: string;
-	link: string;
-	linkHandle: string;
-	linkHandleHover: string;
-	linkHover: string;
-	linkLinkCard: string;
-	linkLinkCardHover: string;
-	linkName: string;
-	linkNameHover: string;
-	linkTimestamp: string;
-	linkTimestampHover: string;
-	repostHeader: string;
-	text: string;
 };

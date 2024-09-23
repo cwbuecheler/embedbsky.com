@@ -1,15 +1,15 @@
 {
-	"client_id": "http://localhost:3000/client-metadata.json",
-	"client_name": "Embed Bsky",
-	"client_uri": "http://localhost:3000",
-	"logo_uri": "http://localhost:3000/embedbsky_logo.svg",
-	"tos_uri": "http://localhost:3000/terms/",
-	"policy_uri": "http://localhost:3000/privacy/",
-	"redirect_uris": ["http://localhost:3000/"],
-	"scope": "atproto",
-	"grant_types": ["authorization_code", "refresh_token"],
-	"response_types": ["code"],
-	"token_endpoint_auth_method": "none",
 	"application_type": "web",
-	"dpop_bound_access_tokens": true
+	"client_id": "https://embedbsky.com/client-metadata.json",
+	"client_name": "Embed Bsky",
+	"client_uri": "https://embedbsky.com",
+	"dpop_bound_access_tokens": true,
+	"grant_types": ["authorization_code", "refresh_token"],
+	"logo_uri": "https://embedbsky.com/embedbsky_logo.svg",
+	"policy_uri": "https://embedbsky.com/privacy/",
+	"redirect_uris": ["https://embedbsky.com/"],
+	"response_types": ["code"],
+	"scope": "atproto transition:generic",
+	"token_endpoint_auth_method": "none",
+	"tos_uri": "https://embedbsky.com/terms/"
 }

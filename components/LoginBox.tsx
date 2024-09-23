@@ -10,13 +10,18 @@ import { useForm } from '@mantine/form';
 // Local Modules
 import classes from '@/components/LoginBox.module.css';
 
-type Props = {};
+type Props = {
+	handleLoginSubmit: (bskyHandle: string) => Promise<void>;
+	isLoading: boolean;
+};
 
 type FormValues = {
 	handle: string;
 };
 
 const LoginBox: React.FC<Props> = (props) => {
+	const { handleLoginSubmit, isLoading } = props;
+
 	const form = useForm<FormValues>({
 		initialValues: {
 			handle: '',
@@ -25,7 +30,7 @@ const LoginBox: React.FC<Props> = (props) => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(form.values);
+		handleLoginSubmit(form.values.handle);
 	};
 
 	return (
@@ -47,7 +52,9 @@ const LoginBox: React.FC<Props> = (props) => {
 				/>
 				<Space h="lg" />
 				<Box ta="center">
-					<Button type="submit">Log In With BlueSky</Button>
+					<Button type="submit" loading={isLoading}>
+						Log In With BlueSky
+					</Button>
 				</Box>
 			</form>
 			<Space h="lg" />

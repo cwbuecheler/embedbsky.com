@@ -1,8 +1,9 @@
 'use client';
 
 // React & 3rd Party Libraries
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // Mantine & Related
 import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
@@ -22,13 +23,54 @@ import { createStyles, generateCustomCSS } from '@/util/shared';
 // TS Types
 import { FormValues } from '@/types/data';
 
+// Main Function
+// TODO - break this up a bit. It's too long.
 export default function Home() {
 	const [darkmode, setDarkmode] = useState<boolean>(false);
+	const [hasReadQS, setHasReadQS] = useState<boolean>(false);
 	const [html, setHtml] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+	const [qCode, setQCode] = useState<string>('');
+	const [qISS, setQISS] = useState<string>('');
+	const [qState, setQState] = useState<string>('');
 	const [scriptText, setScriptText] = useState<string>('');
 	const [showColors, setShowColors] = useState<boolean>(false);
+
+	// TODO - verify state and code
+
+	// Get querystring info for oauth if it exists and then remove it from the querystring
+	const searchParams = useSearchParams();
+	const router = useRouter();
+
+	if (!hasReadQS) {
+		setHasReadQS(true);
+	}
+
+	useEffect(() => {
+		if (hasReadQS && !qCode && !qState) {
+			setQCode(searchParams.get('code') || '');
+			setQISS(searchParams.get('iss') || '');
+			setQState(searchParams.get('state') || '');
+			router.push('/');
+		}
+	}, [hasReadQS, qCode, qISS, qState, router, searchParams]);
+
+	useEffect(() => {
+		const verifyLogin = async () => {
+			setIsLoading(true);
+			const resp = await api.verifyLogin(qCode, qISS, qState);
+			if (resp.success) {
+				setIsLoggedIn(true);
+				setIsLoading(false);
+			} else {
+				setIsLoading(false);
+			}
+		};
+		if (hasReadQS && qCode && qISS && qState) {
+			verifyLogin();
+		}
+	}, [hasReadQS, qCode, qISS, qState]);
 
 	const form = useForm<FormValues>({
 		initialValues: {
@@ -95,6 +137,17 @@ export default function Home() {
 
 		// Add the html to state so we can display the timeline at the same time we display the code
 		setHtml(newHtml);
+	};
+
+	// Handle logging in
+	const handleLoginSubmit = async (bskyHandle: string) => {
+		setIsLoading(true);
+		const resp = await api.login(bskyHandle);
+		if (!resp.success) {
+			console.error(resp.error);
+			return;
+		}
+		window.location = resp.data.uri;
 	};
 
 	// Handle darkmode
@@ -205,7 +258,7 @@ export default function Home() {
 						showColors={showColors}
 					/>
 				) : (
-					<LoginBox />
+					<LoginBox handleLoginSubmit={handleLoginSubmit} isLoading={isLoading} />
 				)}
 				<Space h="lg" />
 				{scriptText ? (
