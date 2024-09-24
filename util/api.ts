@@ -10,7 +10,7 @@ const handleFetchResponse = async (resp: Response) => {
 	if (resp.status === 403) {
 		return {
 			data: '403',
-			error: 'Sorry, this user has their timeline set to viewable by authenticated users only',
+			error: `Sorry, either this account doesn't have permission, or this timeline's been made available only to logged-in users.`,
 			success: true,
 		};
 	}
