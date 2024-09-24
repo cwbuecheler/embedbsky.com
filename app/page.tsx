@@ -90,7 +90,7 @@ export default function Home() {
 		if (hasReadQS && qCode && qISS && qState) {
 			verifyLogin();
 		}
-	}, [hasReadQS, qCode, qISS, qState]);
+	}, [feedForm.values, hasReadQS, lsHandle, qCode, qISS, qState, setDID]);
 
 	// Display the JS code for the user
 	const generateJS = (
