@@ -1,16 +1,19 @@
 'use client';
 
 // React & 3rd Party Libraries
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // Mantine & Related
 import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
+import { useLocalStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 
 // Local Modules
 import Header from '@/components/Header';
+import LoginBox from '@/components/LoginBox';
 import SubmissionForm from '@/components/SubmissionForm';
 import TimelineExample from '@/components/TimelineExample';
 import classes from '@/app/page.module.css';
@@ -21,14 +24,26 @@ import { createStyles, generateCustomCSS } from '@/util/shared';
 // TS Types
 import { FormValues } from '@/types/data';
 
+// Main Function
+// TODO - break this up a bit. It's too long.
 export default function Home() {
 	const [darkmode, setDarkmode] = useState<boolean>(false);
+	const [hasReadQS, setHasReadQS] = useState<boolean>(false);
 	const [html, setHtml] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+	const [qCode, setQCode] = useState<string>('');
+	const [qISS, setQISS] = useState<string>('');
+	const [qState, setQState] = useState<string>('');
 	const [scriptText, setScriptText] = useState<string>('');
 	const [showColors, setShowColors] = useState<boolean>(false);
 
-	const form = useForm<FormValues>({
+	// Localstorage for DID & handle (so they don't have to type it twice)
+	const [did, setDID] = useLocalStorage({ key: 'did', defaultValue: '' });
+	const [lsHandle, setLSHandle] = useLocalStorage({ key: 'bskyHandle', defaultValue: '' });
+
+	// Set up form for getting the feed
+	const feedForm = useForm<FormValues>({
 		initialValues: {
 			bskyHandle: '',
 			colors: lightModeColors,
@@ -41,6 +56,41 @@ export default function Home() {
 			},
 		},
 	});
+
+	// Get querystring info for oauth if it exists and then remove it from the querystring
+	const searchParams = useSearchParams();
+	const router = useRouter();
+
+	if (!hasReadQS) {
+		setHasReadQS(true);
+	}
+
+	useEffect(() => {
+		if (hasReadQS && !qCode && !qISS && !qState) {
+			setQCode(searchParams.get('code') || '');
+			setQISS(searchParams.get('iss') || '');
+			setQState(searchParams.get('state') || '');
+			router.push('/');
+		}
+	}, [hasReadQS, qCode, qISS, qState, router, searchParams]);
+
+	useEffect(() => {
+		const verifyLogin = async () => {
+			setIsLoading(true);
+			const resp = await api.verifyLogin(qCode, qISS, qState);
+			if (resp.success) {
+				setIsLoggedIn(true);
+				setDID(resp.data.did);
+				feedForm.values.bskyHandle = lsHandle;
+				setIsLoading(false);
+			} else {
+				setIsLoading(false);
+			}
+		};
+		if (hasReadQS && qCode && qISS && qState) {
+			verifyLogin();
+		}
+	}, [hasReadQS, qCode, qISS, qState]);
 
 	// Display the JS code for the user
 	const generateJS = (
@@ -55,7 +105,7 @@ export default function Home() {
 		// handle custom colors
 		if (showColors) {
 			js += '<style type="text/css">';
-			js += generateCustomCSS(createStyles(form));
+			js += generateCustomCSS(createStyles(feedForm));
 			js += `</style>`;
 			js += `<div id="embedbsky-com-timeline-embed"></div>`;
 		} else {
@@ -95,12 +145,25 @@ export default function Home() {
 		setHtml(newHtml);
 	};
 
+	// Handle logging in
+	const handleLoginSubmit = async (bskyHandle: string) => {
+		setIsLoading(true);
+		// save the handle in LS so they don't have to enter it twice
+		setLSHandle(bskyHandle);
+		const resp = await api.login(bskyHandle);
+		if (!resp.success) {
+			console.error(resp.error);
+			return;
+		}
+		window.location = resp.data.uri;
+	};
+
 	// Handle darkmode
 	const handleSetDarkmode = () => {
 		if (darkmode) {
-			form.values.colors = lightModeColors;
+			feedForm.values.colors = lightModeColors;
 		} else {
-			form.values.colors = darkModeColors;
+			feedForm.values.colors = darkModeColors;
 		}
 
 		setDarkmode(!darkmode);
@@ -116,15 +179,15 @@ export default function Home() {
 		e.preventDefault();
 		setIsLoading(true);
 		setScriptText('');
-		const values = form.values;
+		const values = feedForm.values;
 
 		// See if they put a full handle or just a single word. If the latter, add ".bsky.social"
-		let handle = form.values.bskyHandle;
+		let handle = feedForm.values.bskyHandle;
 		if (!handle.includes('.')) {
 			handle += '.bsky.social';
 		}
 
-		const resp = await api.createFeed(handle);
+		const resp = await api.createFeed(handle, did);
 		if (!resp.success) {
 			setIsLoading(false);
 			showError();
@@ -192,15 +255,19 @@ export default function Home() {
 					</Anchor>
 				</Text>
 				<Space h="lg" />
-				<SubmissionForm
-					darkmode={darkmode}
-					form={form}
-					handleSetDarkmode={handleSetDarkmode}
-					handleSetShowColors={handleSetShowColors}
-					handleSubmit={handleSubmit}
-					isLoading={isLoading}
-					showColors={showColors}
-				/>
+				{isLoggedIn ? (
+					<SubmissionForm
+						darkmode={darkmode}
+						form={feedForm}
+						handleSetDarkmode={handleSetDarkmode}
+						handleSetShowColors={handleSetShowColors}
+						handleSubmit={handleSubmit}
+						isLoading={isLoading}
+						showColors={showColors}
+					/>
+				) : (
+					<LoginBox handleLoginSubmit={handleLoginSubmit} isLoading={isLoading} />
+				)}
 				<Space h="lg" />
 				{scriptText ? (
 					<Group align="top" gap="xl" wrap="nowrap">
@@ -210,7 +277,7 @@ export default function Home() {
 							<TimelineExample
 								darkmode={darkmode}
 								embedHTML={html}
-								form={form}
+								form={feedForm}
 								showColors={showColors}
 							/>
 						</div>
@@ -230,7 +297,7 @@ export default function Home() {
 						</div>
 					</Group>
 				) : (
-					<Text ta="center">(click the submit button to see something)</Text>
+					<Text ta="center">(log in and fill out the form to see something)</Text>
 				)}
 			</Box>
 		</>
