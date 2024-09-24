@@ -1,0 +1,15 @@
+{
+	"application_type": "web",
+	"client_id": "https://embedbsky.com/client-metadata.json",
+	"client_name": "Embed Bsky",
+	"client_uri": "https://embedbsky.com",
+	"dpop_bound_access_tokens": true,
+	"grant_types": ["authorization_code", "refresh_token"],
+	"logo_uri": "https://embedbsky.com/embedbsky_logo.svg",
+	"policy_uri": "https://embedbsky.com/privacy/",
+	"redirect_uris": ["https://embedbsky.com/"],
+	"response_types": ["code"],
+	"scope": "atproto transition:generic",
+	"token_endpoint_auth_method": "none",
+	"tos_uri": "https://embedbsky.com/terms/"
+}
