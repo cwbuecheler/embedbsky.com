@@ -2,7 +2,7 @@
 import type { Metadata } from 'next';
 
 // Mantine and Related
-import { Container, MantineProvider } from '@mantine/core';
+import { Container, Loader, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import theme from '@/theme';
 import '@mantine/core/styles.css';
@@ -10,6 +10,7 @@ import '@mantine/notifications/styles.css';
 
 // Local Modules
 import Footer from '@/components/Footer';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
 	title: 'EmbedBsky.com',
@@ -56,7 +57,7 @@ export default function RootLayout({
 				<MantineProvider theme={theme}>
 					<Notifications />
 					<Container>
-						{children}
+						<Suspense fallback={<Loader />}>{children}</Suspense>
 						<Footer />
 					</Container>
 				</MantineProvider>

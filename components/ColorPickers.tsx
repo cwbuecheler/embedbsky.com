@@ -4,11 +4,30 @@ import { UseFormReturnType } from '@mantine/form';
 
 // TS Types
 import { ColorList, ColorObj, FormValues } from '@/types/data';
+import { useEffect, useState } from 'react';
 
 type Props = {
 	darkmode: boolean;
 	form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
 };
+
+const colors = [
+	{ label: 'Background', name: 'background' },
+	{ label: 'Border', name: 'border' },
+	{ label: 'Counts', name: 'counts' },
+	{ label: 'Links', name: 'link' },
+	{ label: 'Links (hover)', name: 'linkHover' },
+	{ label: 'Handle', name: 'linkHandle' },
+	{ label: 'Handle (hover)', name: 'linkHandleHover' },
+	{ label: 'Link Card Link', name: 'linkLinkCard' },
+	{ label: 'Link Card Link (hover)', name: 'linkLinkCardHover' },
+	{ label: 'Name', name: 'linkName' },
+	{ label: 'Name (hover)', name: 'linkNameHover' },
+	{ label: 'Timestamp', name: 'linkTimestamp' },
+	{ label: 'Timestamp (hover)', name: 'linkTimestampHover' },
+	{ label: 'Reposted By Header', name: 'repostHeader' },
+	{ label: 'Main Post Text', name: 'text' },
+];
 
 export const darkModeColors: ColorList = {
 	background: 'rgb(22, 30, 39)',
@@ -49,37 +68,30 @@ export const lightModeColors: ColorList = {
 const ColorPickers: React.FC<Props> = (props) => {
 	const { darkmode, form } = props;
 
-	const colors = [
-		{ label: 'Background', name: 'background' },
-		{ label: 'Border', name: 'border' },
-		{ label: 'Counts', name: 'counts' },
-		{ label: 'Links', name: 'link' },
-		{ label: 'Links (hover)', name: 'linkHover' },
-		{ label: 'Handle', name: 'linkHandle' },
-		{ label: 'Handle (hover)', name: 'linkHandleHover' },
-		{ label: 'Link Card Link', name: 'linkLinkCard' },
-		{ label: 'Link Card Link (hover)', name: 'linkLinkCardHover' },
-		{ label: 'Name', name: 'linkName' },
-		{ label: 'Name (hover)', name: 'linkNameHover' },
-		{ label: 'Timestamp', name: 'linkTimestamp' },
-		{ label: 'Timestamp (hover)', name: 'linkTimestampHover' },
-		{ label: 'Reposted By Header', name: 'repostHeader' },
-		{ label: 'Main Post Text', name: 'text' },
-	];
+	const [colorObjs, setColorObjs] = useState<ColorObj[]>([]);
+	const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
 
-	const generateColorObjs = (): ColorObj[] => {
-		const listToUse = darkmode ? darkModeColors : lightModeColors;
-		const colorObjList: ColorObj[] = colors.map((color) => {
-			return {
-				label: color.label,
-				name: color.name,
-				value: listToUse[color.name],
-			};
-		});
-		return colorObjList;
-	};
+	// Handle darkmode toggle
+	useEffect(() => {
+		const generateColorObjs = (): ColorObj[] => {
+			const listToUse = darkmode ? darkModeColors : lightModeColors;
+			const colorObjList: ColorObj[] = colors.map((color) => {
+				return {
+					label: color.label,
+					name: color.name,
+					value: listToUse[color.name],
+				};
+			});
+			return colorObjList;
+		};
 
-	const colorObjs = generateColorObjs();
+		if (isFirstRender) {
+			form.values.colors = darkmode ? darkModeColors : lightModeColors;
+			const objs = generateColorObjs();
+			setColorObjs(objs);
+			setIsFirstRender(false);
+		}
+	}, [darkmode, form.values, isFirstRender]);
 
 	return colorObjs.map((colorObj) => (
 		<ColorInput
