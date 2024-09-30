@@ -17,13 +17,12 @@ import SubmissionForm from '@/components/SubmissionForm';
 import TimelineExample from '@/components/TimelineExample';
 import classes from '@/app/page.module.css';
 import { api } from '@/util/api';
-import { createStyles, generateCustomCSS } from '@/util/shared';
+import { generateJS } from '@/util/generators';
 
 // TS Types
 import { ColorList, FormValues } from '@/types/data';
 
 // Main Function
-// TODO - break this up a bit. It's too long.
 export default function Home() {
 	const [darkmode, setDarkmode] = useState<boolean>(false);
 	const [did, setDID] = useState<string>('');
@@ -74,41 +73,6 @@ export default function Home() {
 			verifyLogin();
 		}
 	}, [did, hasReadQS, lsHandle, qCode, qISS, qState, setDID]);
-
-	// Display the JS code for the user
-	const generateJS = (
-		returnedURI: string,
-		width: number | null,
-		height: number | null,
-		darkmode: boolean,
-	) => {
-		let w = width ? width : 550;
-		let h = height ? height : 600;
-		let js = '<link rel="stylesheet" href="https://embedbsky.com/embedbsky.com-master-min.css" />';
-		// handle custom colors
-		if (showColors && colors) {
-			js += '<style type="text/css">';
-			js += generateCustomCSS(createStyles(colors));
-			js += `</style>`;
-			js += `<div id="embedbsky-com-timeline-embed"></div>`;
-		} else {
-			js += `<div id="embedbsky-com-timeline-embed"${darkmode ? ' class="darkmode"' : ''}></div>`;
-		}
-		js += '<script>';
-		js += `let containerWidth=${w},containerHeight=${h};`;
-		js += 'const getHtml=async t=>{';
-		js += `const e=await fetch(t);`;
-		js += `return 200!==e.status?'<p><strong>No feed data could be located</p></strong>':e.text()`;
-		js += '};';
-		js += `document.addEventListener('DOMContentLoaded',(async()=>{`;
-		js += `const t=(new Date).toISOString(),e=document.getElementById('embedbsky-com-timeline-embed');`;
-		js += 'e.style.width=`${containerWidth}px`,e.style.height=`${containerHeight}px`;';
-		js += 'const n=await getHtml(`' + returnedURI + '?v=${t}`);';
-		js += 'e.innerHTML=n';
-		js += '}));';
-		js += '</script>';
-		return js;
-	};
 
 	const handleCodeFocus = (event: React.FocusEvent<HTMLTextAreaElement, Element>) =>
 		event.target.select();
@@ -182,7 +146,14 @@ export default function Home() {
 			showError();
 			return;
 		}
-		const js = generateJS(returnedURI, formValues.width, formValues.height, darkmode);
+		const js = generateJS(
+			returnedURI,
+			formValues.width,
+			formValues.height,
+			darkmode,
+			showColors,
+			colors,
+		);
 		setScriptText(js);
 		handleJS(returnedURI);
 		setIsLoading(false);

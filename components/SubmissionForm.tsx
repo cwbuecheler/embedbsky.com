@@ -1,7 +1,14 @@
 'use client';
 
 // React & 3rd Party Libraries
-import { ChangeEventHandler, Dispatch, FormEvent, SetStateAction } from 'react';
+import {
+	ChangeEventHandler,
+	Dispatch,
+	FormEvent,
+	SetStateAction,
+	useEffect,
+	useState,
+} from 'react';
 
 // Mantine & Related
 import {
@@ -62,13 +69,6 @@ const SubmissionForm: React.FC<Props> = (props) => {
 		},
 	});
 
-	// Handle darkmode toggle (no useEffect needed - will run each render)
-	if (darkmode) {
-		form.values.colors = lightModeColors;
-	} else {
-		form.values.colors = darkModeColors;
-	}
-
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setColors(form.values.colors);
@@ -127,8 +127,7 @@ const SubmissionForm: React.FC<Props> = (props) => {
 				<Space h="lg" />
 				<Switch label="Set My Own Colors" checked={showColors} onChange={handleSetShowColors} />
 				<Text size="xs">
-					Note: this significantly lengthens the embed code. It will also change the example
-					dynamically but you must resubmit to change the embed code.
+					Note: this significantly lengthens the embed code. You must resubmit to see changes.
 				</Text>
 				<Space h="lg" />
 				{showColors ? (

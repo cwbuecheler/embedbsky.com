@@ -2,7 +2,7 @@
 
 // Local Modules
 import classes from '@/components/TimelineExample.module.css';
-import { createStyles, generateCustomCSS } from '@/util/shared';
+import { createStyles, generateCustomCSS } from '@/util/generators';
 
 // TS Types
 import { ColorList } from '@/types/data';
