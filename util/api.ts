@@ -11,7 +11,7 @@ const handleFetchResponse = async (resp: Response) => {
 		return {
 			data: '403',
 			error: `Sorry, either this account doesn't have permission, or this timeline's been made available only to logged-in users.`,
-			success: true,
+			success: false,
 		};
 	}
 	return { data: '', error: `Fetch - ${resp.status} - ${resp.statusText}`, success: false };

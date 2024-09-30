@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useLocalStorage } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
+import { notifications, showNotification } from '@mantine/notifications';
 
 // Local Modules
 import Header from '@/components/Header';
@@ -87,10 +87,10 @@ export default function Home() {
 				setIsLoading(false);
 			}
 		};
-		if (hasReadQS && qCode && qISS && qState) {
+		if (!did && hasReadQS && qCode && qISS && qState) {
 			verifyLogin();
 		}
-	}, [feedForm.values, hasReadQS, lsHandle, qCode, qISS, qState, setDID]);
+	}, [did, feedForm.values, hasReadQS, lsHandle, qCode, qISS, qState, setDID]);
 
 	// Display the JS code for the user
 	const generateJS = (
@@ -148,13 +148,14 @@ export default function Home() {
 	// Handle logging in
 	const handleLoginSubmit = async (bskyHandle: string) => {
 		setIsLoading(true);
-		// save the handle in LS so they don't have to enter it twice
-		setLSHandle(bskyHandle);
 		const resp = await api.login(bskyHandle);
 		if (!resp.success) {
-			console.error(resp.error);
+			showError(`Couldn't find this user to log them in.`);
+			setIsLoading(false);
 			return;
 		}
+		// save the handle in LS so they don't have to enter it twice
+		setLSHandle(bskyHandle);
 		window.location = resp.data.uri;
 	};
 
@@ -221,9 +222,11 @@ export default function Home() {
 			message = `Unfortunately, we couldn't load that timeline. Please try again!`;
 		}
 		notifications.show({
+			autoClose: 8000,
 			color: 'red',
 			title: 'Error',
 			message,
+			position: 'top-center',
 		});
 	};
 
