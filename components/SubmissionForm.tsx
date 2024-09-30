@@ -1,7 +1,14 @@
 'use client';
 
 // React & 3rd Party Libraries
-import { ChangeEventHandler, FormEvent } from 'react';
+import {
+	ChangeEventHandler,
+	Dispatch,
+	FormEvent,
+	SetStateAction,
+	useEffect,
+	useState,
+} from 'react';
 
 // Mantine & Related
 import {
@@ -15,38 +22,61 @@ import {
 	TextInput,
 	Title,
 } from '@mantine/core';
-import { UseFormReturnType } from '@mantine/form';
+import { useForm } from '@mantine/form';
 
 // Local Modules
-import ColorPickers from '@/components/ColorPickers';
+import ColorPickers, { darkModeColors, lightModeColors } from '@/components/ColorPickers';
 import classes from '@/components/SubmissionForm.module.css';
 
 // TS Types
-import { FormValues } from '@/types/data';
+import { ColorList, FormValues } from '@/types/data';
 
 type Props = {
+	bskyHandle: string;
 	darkmode: boolean;
-	form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
 	handleSetDarkmode: ChangeEventHandler<HTMLInputElement> | undefined;
 	handleSetShowColors: ChangeEventHandler<HTMLInputElement> | undefined;
-	handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void>;
 	isLoading: boolean;
+	setColors: Dispatch<SetStateAction<ColorList | undefined>>;
 	showColors: boolean;
+	submitForm: (feedFormValues: FormValues) => Promise<void>;
 };
 
 const SubmissionForm: React.FC<Props> = (props) => {
 	const {
+		bskyHandle,
 		darkmode,
-		form,
 		handleSetDarkmode,
 		handleSetShowColors,
-		handleSubmit,
 		isLoading,
+		setColors,
 		showColors,
+		submitForm,
 	} = props;
 
+	// Set up form for getting the feed
+	const form = useForm<FormValues>({
+		initialValues: {
+			bskyHandle,
+			colors: lightModeColors,
+			height: null,
+			width: null,
+		},
+		validate: {
+			bskyHandle: (value: string) => {
+				return value.length > 6 ? '' : 'Handle must be at least 6 characters long.';
+			},
+		},
+	});
+
+	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setColors(form.values.colors);
+		submitForm(form.values);
+	};
+
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleFormSubmit}>
 			<Paper className={classes.formwrap} p="xl" shadow="sm">
 				<TextInput
 					key={form.key('bskyHandle')}
@@ -97,8 +127,7 @@ const SubmissionForm: React.FC<Props> = (props) => {
 				<Space h="lg" />
 				<Switch label="Set My Own Colors" checked={showColors} onChange={handleSetShowColors} />
 				<Text size="xs">
-					Note: this significantly lengthens the embed code. It will also change the example
-					dynamically but you must resubmit to change the embed code.
+					Note: this significantly lengthens the embed code. You must resubmit to see changes.
 				</Text>
 				<Space h="lg" />
 				{showColors ? (
