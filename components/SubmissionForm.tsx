@@ -96,7 +96,7 @@ const SubmissionForm: React.FC<Props> = (props) => {
 					min={200}
 					max={2000}
 					maxLength={4}
-					placeholder="min 200, max 2000, defaults to 550"
+					placeholder="min 200, max 2000, blank for responsive"
 					{...form.getInputProps('width')}
 				/>
 				<Space h="lg" />

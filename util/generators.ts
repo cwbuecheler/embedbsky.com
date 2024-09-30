@@ -34,8 +34,8 @@ export const generateJS = (
 	showColors: boolean,
 	colors: ColorList | undefined,
 ) => {
-	let w = width ? width : 550;
-	let h = height ? height : 600;
+	let w = width ? width : 0;
+	let h = height ? height : 0;
 	let js = '<link rel="stylesheet" href="https://embedbsky.com/embedbsky.com-master-min.css" />';
 	// handle custom colors
 	if (showColors && colors) {
@@ -54,7 +54,12 @@ export const generateJS = (
 	js += '};';
 	js += `document.addEventListener('DOMContentLoaded',(async()=>{`;
 	js += `const t=(new Date).toISOString(),e=document.getElementById('embedbsky-com-timeline-embed');`;
-	js += 'e.style.width=`${containerWidth}px`,e.style.height=`${containerHeight}px`;';
+	// handle responsive
+	if (w > 0) {
+		js += 'e.style.width=`${containerWidth}px`,e.style.height=`${containerHeight}px`;';
+	} else {
+		js += 'e.style.width="100%",e.style.height=`${containerHeight}px`;';
+	}
 	js += 'const n=await getHtml(`' + returnedURI + '?v=${t}`);';
 	js += 'e.innerHTML=n';
 	js += '}));';
