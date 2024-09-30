@@ -35,7 +35,9 @@ type Props = {
 	bskyHandle: string;
 	darkmode: boolean;
 	handleSetDarkmode: ChangeEventHandler<HTMLInputElement> | undefined;
+	handleSetIncludeReposts: ChangeEventHandler<HTMLInputElement> | undefined;
 	handleSetShowColors: ChangeEventHandler<HTMLInputElement> | undefined;
+	includeReposts: boolean;
 	isLoading: boolean;
 	setColors: Dispatch<SetStateAction<ColorList | undefined>>;
 	showColors: boolean;
@@ -47,7 +49,9 @@ const SubmissionForm: React.FC<Props> = (props) => {
 		bskyHandle,
 		darkmode,
 		handleSetDarkmode,
+		handleSetIncludeReposts,
 		handleSetShowColors,
+		includeReposts,
 		isLoading,
 		setColors,
 		showColors,
@@ -112,6 +116,16 @@ const SubmissionForm: React.FC<Props> = (props) => {
 					placeholder="min 200, max 2000, defaults to 600"
 					{...form.getInputProps('height')}
 				/>
+				<Space h="lg" />
+				<Switch
+					label="Include Reposts"
+					checked={includeReposts}
+					onChange={handleSetIncludeReposts}
+				/>
+				<Space h="sm" />
+				<Text size="xs">
+					{includeReposts ? `Show Posts, Reposts, and Quote Posts` : `Show Posts and Quote Posts`}
+				</Text>
 				<Space h="lg" />
 				<Switch
 					label="Enable Dark Mode"
