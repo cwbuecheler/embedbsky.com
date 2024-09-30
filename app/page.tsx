@@ -1,15 +1,14 @@
 'use client';
 
 // React & 3rd Party Libraries
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 // Mantine & Related
 import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
-import { useForm } from '@mantine/form';
 import { useLocalStorage } from '@mantine/hooks';
-import { notifications, showNotification } from '@mantine/notifications';
+import { notifications } from '@mantine/notifications';
 
 // Local Modules
 import Header from '@/components/Header';
@@ -17,17 +16,17 @@ import LoginBox from '@/components/LoginBox';
 import SubmissionForm from '@/components/SubmissionForm';
 import TimelineExample from '@/components/TimelineExample';
 import classes from '@/app/page.module.css';
-import { darkModeColors, lightModeColors } from '@/components/ColorPickers';
 import { api } from '@/util/api';
 import { createStyles, generateCustomCSS } from '@/util/shared';
 
 // TS Types
-import { FormValues } from '@/types/data';
+import { ColorList, FormValues } from '@/types/data';
 
 // Main Function
 // TODO - break this up a bit. It's too long.
 export default function Home() {
 	const [darkmode, setDarkmode] = useState<boolean>(false);
+	const [did, setDID] = useState<string>('');
 	const [hasReadQS, setHasReadQS] = useState<boolean>(false);
 	const [html, setHtml] = useState<string>('');
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,26 +35,11 @@ export default function Home() {
 	const [qISS, setQISS] = useState<string>('');
 	const [qState, setQState] = useState<string>('');
 	const [scriptText, setScriptText] = useState<string>('');
+	const [colors, setColors] = useState<ColorList | undefined>(undefined);
 	const [showColors, setShowColors] = useState<boolean>(false);
 
-	// Localstorage for DID & handle (so they don't have to type it twice)
-	const [did, setDID] = useLocalStorage({ key: 'did', defaultValue: '' });
+	// Localstorage for handle (so they don't have to type it twice)
 	const [lsHandle, setLSHandle] = useLocalStorage({ key: 'bskyHandle', defaultValue: '' });
-
-	// Set up form for getting the feed
-	const feedForm = useForm<FormValues>({
-		initialValues: {
-			bskyHandle: '',
-			colors: lightModeColors,
-			height: null,
-			width: null,
-		},
-		validate: {
-			bskyHandle: (value) => {
-				return value.length > 6 ? '' : 'Handle must be at least 6 characters long.';
-			},
-		},
-	});
 
 	// Get querystring info for oauth if it exists and then remove it from the querystring
 	const searchParams = useSearchParams();
@@ -81,7 +65,6 @@ export default function Home() {
 			if (resp.success) {
 				setIsLoggedIn(true);
 				setDID(resp.data.did);
-				feedForm.values.bskyHandle = lsHandle;
 				setIsLoading(false);
 			} else {
 				setIsLoading(false);
@@ -90,7 +73,7 @@ export default function Home() {
 		if (!did && hasReadQS && qCode && qISS && qState) {
 			verifyLogin();
 		}
-	}, [did, feedForm.values, hasReadQS, lsHandle, qCode, qISS, qState, setDID]);
+	}, [did, hasReadQS, lsHandle, qCode, qISS, qState, setDID]);
 
 	// Display the JS code for the user
 	const generateJS = (
@@ -103,9 +86,9 @@ export default function Home() {
 		let h = height ? height : 600;
 		let js = '<link rel="stylesheet" href="https://embedbsky.com/embedbsky.com-master-min.css" />';
 		// handle custom colors
-		if (showColors) {
+		if (showColors && colors) {
 			js += '<style type="text/css">';
-			js += generateCustomCSS(createStyles(feedForm));
+			js += generateCustomCSS(createStyles(colors));
 			js += `</style>`;
 			js += `<div id="embedbsky-com-timeline-embed"></div>`;
 		} else {
@@ -161,12 +144,6 @@ export default function Home() {
 
 	// Handle darkmode
 	const handleSetDarkmode = () => {
-		if (darkmode) {
-			feedForm.values.colors = lightModeColors;
-		} else {
-			feedForm.values.colors = darkModeColors;
-		}
-
 		setDarkmode(!darkmode);
 	};
 
@@ -176,14 +153,12 @@ export default function Home() {
 	};
 
 	// Handle Form Submission
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+	const handleSubmit = async (formValues: FormValues) => {
 		setIsLoading(true);
 		setScriptText('');
-		const values = feedForm.values;
 
 		// See if they put a full handle or just a single word. If the latter, add ".bsky.social"
-		let handle = feedForm.values.bskyHandle;
+		let handle = formValues.bskyHandle;
 		if (!handle.includes('.')) {
 			handle += '.bsky.social';
 		}
@@ -207,7 +182,7 @@ export default function Home() {
 			showError();
 			return;
 		}
-		const js = generateJS(returnedURI, values.width, values.height, darkmode);
+		const js = generateJS(returnedURI, formValues.width, formValues.height, darkmode);
 		setScriptText(js);
 		handleJS(returnedURI);
 		setIsLoading(false);
@@ -260,12 +235,13 @@ export default function Home() {
 				<Space h="lg" />
 				{isLoggedIn ? (
 					<SubmissionForm
+						bskyHandle={lsHandle}
 						darkmode={darkmode}
-						form={feedForm}
 						handleSetDarkmode={handleSetDarkmode}
 						handleSetShowColors={handleSetShowColors}
-						handleSubmit={handleSubmit}
+						submitForm={handleSubmit}
 						isLoading={isLoading}
+						setColors={setColors}
 						showColors={showColors}
 					/>
 				) : (
@@ -278,9 +254,9 @@ export default function Home() {
 							<Title>Example</Title>
 							<Space h="lg" />
 							<TimelineExample
+								colors={colors}
 								darkmode={darkmode}
 								embedHTML={html}
-								form={feedForm}
 								showColors={showColors}
 							/>
 						</div>
