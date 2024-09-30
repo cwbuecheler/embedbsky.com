@@ -28,6 +28,7 @@ export default function Home() {
 	const [did, setDID] = useState<string>('');
 	const [hasReadQS, setHasReadQS] = useState<boolean>(false);
 	const [html, setHtml] = useState<string>('');
+	const [includeReposts, setIncludeReposts] = useState<boolean>(true);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const [qCode, setQCode] = useState<string>('');
@@ -53,9 +54,14 @@ export default function Home() {
 			setQCode(searchParams.get('code') || '');
 			setQISS(searchParams.get('iss') || '');
 			setQState(searchParams.get('state') || '');
-			router.push('/');
 		}
 	}, [hasReadQS, qCode, qISS, qState, router, searchParams]);
+
+	useEffect(() => {
+		if (did && hasReadQS && qCode && qISS && qState) {
+			router.push('/');
+		}
+	}, [did, hasReadQS, qCode, qISS, qState, router]);
 
 	useEffect(() => {
 		const verifyLogin = async () => {
@@ -111,6 +117,11 @@ export default function Home() {
 		setDarkmode(!darkmode);
 	};
 
+	// Handle including reposts
+	const handleSetIncludeReposts = () => {
+		setIncludeReposts(!includeReposts);
+	};
+
 	// Handle show colors
 	const handleSetShowColors = () => {
 		setShowColors(!showColors);
@@ -127,7 +138,7 @@ export default function Home() {
 			handle += '.bsky.social';
 		}
 
-		const resp = await api.createFeed(handle, did);
+		const resp = await api.createFeed(handle, did, includeReposts);
 		if (!resp.success) {
 			setIsLoading(false);
 			showError();
@@ -209,8 +220,10 @@ export default function Home() {
 						bskyHandle={lsHandle}
 						darkmode={darkmode}
 						handleSetDarkmode={handleSetDarkmode}
+						handleSetIncludeReposts={handleSetIncludeReposts}
 						handleSetShowColors={handleSetShowColors}
 						submitForm={handleSubmit}
+						includeReposts={includeReposts}
 						isLoading={isLoading}
 						setColors={setColors}
 						showColors={showColors}
