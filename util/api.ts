@@ -18,12 +18,13 @@ const handleFetchResponse = async (resp: Response) => {
 };
 
 export const api: API = {
-	createFeed: async (bskyId: string, did: string, includeReposts: boolean) => {
+	createFeed: async (bskyId: string, did: string, includeReposts: boolean, limit?: number) => {
 		try {
 			const response = await fetch(`${API_URI}/create/${bskyId}`, {
 				body: JSON.stringify({
 					did,
 					includeReposts,
+					limit: limit || 30,
 				}),
 				headers: {
 					'Content-Type': 'application/json',
