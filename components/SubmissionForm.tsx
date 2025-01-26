@@ -1,14 +1,7 @@
 'use client';
 
 // React & 3rd Party Libraries
-import {
-	ChangeEventHandler,
-	Dispatch,
-	FormEvent,
-	SetStateAction,
-	useEffect,
-	useState,
-} from 'react';
+import { ChangeEventHandler, Dispatch, FormEvent, SetStateAction } from 'react';
 
 // Mantine & Related
 import {
@@ -25,7 +18,7 @@ import {
 import { useForm } from '@mantine/form';
 
 // Local Modules
-import ColorPickers, { darkModeColors, lightModeColors } from '@/components/ColorPickers';
+import ColorPickers, { lightModeColors } from '@/components/ColorPickers';
 import classes from '@/components/SubmissionForm.module.css';
 
 // TS Types
@@ -64,6 +57,7 @@ const SubmissionForm: React.FC<Props> = (props) => {
 			bskyHandle,
 			colors: lightModeColors,
 			height: null,
+			limit: 30,
 			width: null,
 		},
 		validate: {
@@ -115,6 +109,19 @@ const SubmissionForm: React.FC<Props> = (props) => {
 					maxLength={4}
 					placeholder="min 200, max 2000, defaults to 600"
 					{...form.getInputProps('height')}
+				/>
+				<Space h="lg" />
+				<NumberInput
+					allowDecimal={false}
+					allowLeadingZeros={false}
+					allowNegative={false}
+					key={form.key('limit')}
+					label="# of Posts to Show"
+					min={1}
+					max={30}
+					maxLength={2}
+					placeholder="min 1, max 30, defaults to 30"
+					{...form.getInputProps('limit')}
 				/>
 				<Space h="lg" />
 				<Switch
