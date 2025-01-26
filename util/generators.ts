@@ -35,7 +35,7 @@ export const generateJS = (
 	colors: ColorList | undefined,
 ) => {
 	let w = width ? width : 0;
-	let h = height ? height : 0;
+	let h = height ? height : 600;
 	let js = '<link rel="stylesheet" href="https://embedbsky.com/embedbsky.com-master-min.css" />';
 	// handle custom colors
 	if (showColors && colors) {
