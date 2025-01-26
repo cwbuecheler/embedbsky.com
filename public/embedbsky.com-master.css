@@ -121,20 +121,20 @@
 }
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.avatar {
 	margin-right: 10px;
-	max-width: 52px;
-	width: 52px;
+	max-width: 42px;
+	width: 42px;
 }
 
 /* Avatar handling ============================================================================= */
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.avatar .avatar-img {
-	max-width: 52px;
-	width: 52px;
+	max-width: 42px;
+	width: 42px;
 }
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.avatar .avatar-img img {
 	border-radius: 26px;
-	height: 52px;
-	max-width: 52px;
-	width: 52px;
+	height: 42px;
+	max-width: 42px;
+	width: 42px;
 }
 
 /* Text column handling  ======================================================================= */
@@ -368,11 +368,13 @@
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .quotebox .header {
 	align-items: center;
 	display: flex;
+	height: auto;
 	justify-content: left;
 	margin: 0 0 5px 0;
 	width: 100%;
 }
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .quotebox .header .avatar {
+	height: 16px;
 	margin: 0 5px 0 0;
 	padding: 0;
 	width: 16px;
