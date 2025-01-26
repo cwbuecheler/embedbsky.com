@@ -137,8 +137,9 @@ export default function Home() {
 		if (!handle.includes('.')) {
 			handle += '.bsky.social';
 		}
+		const { limit } = formValues;
 
-		const resp = await api.createFeed(handle, did, includeReposts);
+		const resp = await api.createFeed(handle, did, includeReposts, limit);
 		if (!resp.success) {
 			setIsLoading(false);
 			showError();
