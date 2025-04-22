@@ -30,7 +30,7 @@ export default function FAQ() {
 						Christopher Buecheler
 					</Anchor>
 					, a full-stack web developer who works primarily in TypeScript. You should absolutely{' '}
-					<Anchor href="https://bsky.app/profile/cwbuecheler.bsky.social" target="_blank">
+					<Anchor href="https://bsky.app/profile/cwbuecheler.com" target="_blank">
 						follow me on BlueSky
 					</Anchor>
 					!
@@ -88,14 +88,11 @@ export default function FAQ() {
 					Can I compensate you in some way?
 				</Title>
 				<Text mb={20} size="lg">
-					You could hire me to consult for your startup, SaaS business, or the like. Or you could
-					kick five bucks my way via Kofi (coming soon). Or you could give me props on LinkedIn.
-					I&apos;m not picky, but I&apos;m definitely appreciative! Also, as previously mentioned,
-					you should{' '}
-					<Anchor href="https://bsky.app/profile/cwbuecheler.bsky.social" target="_blank">
+					You should{' '}
+					<Anchor href="https://bsky.app/profile/cwbuecheler.com" target="_blank">
 						follow me on BlueSky
 					</Anchor>
-					. Everyone loves to see that follower count increase.
+					. Everyone loves to see that follower count increase!
 				</Text>
 				<Title mb={10} order={2}>
 					Are you storing my timeline data for nefarious purposes?
