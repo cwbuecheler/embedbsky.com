@@ -31,7 +31,7 @@ const Footer = () => {
 				<Group>
 					<Text>
 						&copy; 2024{' '}
-						<Anchor href="https://bsky.app/profile/cwbuecheler.bsky.social" target="_blank">
+						<Anchor href="https://bsky.app/profile/cwbuecheler.com" target="_blank">
 							Christopher Buecheler
 						</Anchor>
 					</Text>
