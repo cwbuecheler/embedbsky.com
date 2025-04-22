@@ -10,6 +10,7 @@
 
 /* The container for the whole timeline ======================================================== */
 #embedbsky-com-timeline-embed {
+	color: var(--v-color-text);
 	overflow-y: scroll;
 }
 
@@ -22,6 +23,7 @@
 	justify-content: left;
 	margin-bottom: 20px;
 	padding-bottom: 10px;
+	position: relative;
 	width: 100%;
 }
 #embedbsky-com-timeline-embed .header .avatar {

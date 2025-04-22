@@ -1,5 +1,5 @@
 // Mantine & Related
-import { Box, Text, Title } from '@mantine/core';
+import { Anchor, Box, Text, Title } from '@mantine/core';
 
 // Local Modules
 import Header from '@/components/Header';
@@ -49,8 +49,11 @@ export default function FAQ() {
 					</li>
 					<li>
 						<strong>Updates. </strong>We may update this Privacy Notice from time to time. We will
-						post these changes on Christopher Buecheler&apos;s BlueSky profile. We will never email
-						you, because we don&apos;t know your email address.
+						post these changes on{' '}
+						<Anchor href="https://bsky.app/profile/cwbuecheler.com" target="_blank">
+							Christopher Buecheler&apos;s BlueSky profile
+						</Anchor>
+						. We will never email you, because we don&apos;t know your email address.
 					</li>
 					<li>
 						<strong>Personal Information We Collect</strong>. We do not collect any personal
@@ -67,10 +70,13 @@ export default function FAQ() {
 						handle with anyone else for any reason.
 					</li>
 					<li>
-						<strong>Your Privacy Rights and Choices</strong>. You may at any time contact
-						Christopher Buecheler via BlueSky DM to request that he remove your existing feed and
-						handle information from the service. You can also delete your BlueSky account, and the
-						service will automatically remove your details.
+						<strong>Your Privacy Rights and Choices</strong>. You may at any time{' '}
+						<Anchor href="https://bsky.app/profile/cwbuecheler.com" target="_blank">
+							contact Christopher Buecheler via BlueSky DM
+						</Anchor>{' '}
+						to request that he remove your existing feed and handle information from the service.
+						You can also delete your BlueSky account, and the service will automatically remove your
+						details.
 					</li>
 					<li>
 						<strong>International Transfers</strong>. Depending on your location, you may
