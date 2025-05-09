@@ -12,6 +12,7 @@ import classes from './Footer.module.css';
 const links = [
 	{ link: '/', label: 'Home' },
 	{ link: '/faq/', label: 'FAQ' },
+	{ link: '/patchnotes/', label: 'Patch Notes' },
 	{ link: '/terms/', label: 'Terms' },
 	{ link: '/privacy/', label: 'Privacy' },
 ];

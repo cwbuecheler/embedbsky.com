@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 // Mantine & Related
-import { Anchor, Box, Group, Space, Text, Title } from '@mantine/core';
+import { Anchor, Box, Group, List, Space, Text, Title } from '@mantine/core';
 import { useLocalStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 
@@ -195,19 +195,27 @@ export default function Home() {
 				<Title mb={20} order={1}>
 					Embed My BlueSky Timeline
 				</Title>
-				<Space h="lg" />
-				<Text size="lg">
-					Are you looking for a way to embed the last thirty posts and reposts from your BlueSky
-					timeline in your blog or website? Well, look no further! Just fill in the form below and
-					then paste the generated code into your site&apos;s HTML, and you&apos;ll get exactly
-					that. Note that once timelines are generated, they update about every five minutes, so if
-					you don&apos;t see a post immediately, wait a few and then check the timeline again.
-					Questions? Check out the{' '}
-					<Link href="/faq" passHref legacyBehavior>
-						<Anchor>FAQ</Anchor>
-					</Link>
-					.
-				</Text>
+				<List type="unordered" size="lg">
+					<List.Item>
+						Embed your BlueSky timeline in your blog or website (up to 30 posts/reposts)
+					</List.Item>
+					<List.Item>
+						Customize the width, height, and colors (includes dark mode support)
+					</List.Item>
+					<List.Item>Embed code is generated for you and updated every 5 minutes</List.Item>
+					<List.Item>
+						Embed code is valid HTML, CSS, and Vanilla JS - just paste it into your site
+					</List.Item>
+					<List.Item>No backend or BlueSky server calls required!</List.Item>
+					<List.Item>Open source and free to use</List.Item>
+					<List.Item>
+						Check out the{' '}
+						<Link href="/faq" passHref legacyBehavior>
+							<Anchor>FAQ</Anchor>
+						</Link>{' '}
+						for more information
+					</List.Item>
+				</List>
 				<Space h="lg" />
 				<Text size="lg">
 					We&apos;re very much in beta. If you find issues, let me know, or feel free to{' '}
