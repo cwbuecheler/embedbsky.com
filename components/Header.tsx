@@ -18,6 +18,7 @@ type Links = {
 	[key: string]: Link;
 	home: Link;
 	faq: Link;
+	patchnotes: Link;
 };
 
 type Props = {
@@ -32,6 +33,10 @@ const links: Links = {
 	faq: {
 		label: 'Questions?',
 		link: '/faq',
+	},
+	patchnotes: {
+		label: 'Patch Notes',
+		link: '/patchnotes',
 	},
 };
 

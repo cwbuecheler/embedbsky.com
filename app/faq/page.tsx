@@ -1,3 +1,5 @@
+'use client';
+
 // Mantine & Related
 import { Anchor, Box, Text, Title } from '@mantine/core';
 
@@ -108,9 +110,7 @@ export default function FAQ() {
 				<Text mb={20} size="lg">
 					You have two options. The first is to delete your BlueSky account. The system
 					automatically nukes any data from nonexistent accounts. If you&apos;d prefer not to pursue
-					the nuclear option, you can get in touch with me and I can manually remove you. Once I get
-					AtProto oAuth working, you&apos;ll be able to do it yourself, I&apos;m still working on
-					this and wanted to get to beta before worrying about adding in oAuth.
+					the nuclear option, you can get in touch with me and I can manually remove you.
 				</Text>
 				<Text mb={20} size="lg">
 					Please keep in mind, however, that anyone can access a feed via the API, if they know
