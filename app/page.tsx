@@ -132,6 +132,9 @@ export default function Home() {
 		setIsLoading(true);
 		setScriptText('');
 
+		// Trim whitespace from the handle (happens on paste sometimes and can cause issues)
+		formValues.bskyHandle = formValues.bskyHandle.trim();
+
 		// See if they put a full handle or just a single word. If the latter, add ".bsky.social"
 		let handle = formValues.bskyHandle;
 		if (!handle.includes('.')) {
