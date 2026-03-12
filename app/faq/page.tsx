@@ -5,6 +5,7 @@ import { Anchor, Box, Text, Title } from '@mantine/core';
 
 // Local Modules
 import Header from '@/components/Header';
+import BuyMeACoffee from '@/components/BuyMeACoffee';
 
 export default function FAQ() {
 	return (
@@ -52,6 +53,15 @@ export default function FAQ() {
 					Just follow the directions on the home page!
 				</Text>
 				<Title mb={10} order={2}>
+					What if I encounter an issue?
+				</Title>
+				<Text size="lg">
+					If you find issues, let me know, or feel free to{' '}
+					<Anchor href="https://github.com/cwbuecheler/embedbsky.com/issues" target="_blank">
+						submit them on Github
+					</Anchor>
+				</Text>
+				<Title mb={10} order={2}>
 					Didn&apos;t someone else already do this?
 				</Title>
 				<Text mb={20} size="lg">
@@ -96,6 +106,9 @@ export default function FAQ() {
 					</Anchor>
 					. Everyone loves to see that follower count increase!
 				</Text>
+				<Box content="center" mb="lg" display="flex">
+					<Text size="lg">You could also &hellip;</Text> <BuyMeACoffee />
+				</Box>
 				<Title mb={10} order={2}>
 					Are you storing my timeline data for nefarious purposes?
 				</Title>

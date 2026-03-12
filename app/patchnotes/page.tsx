@@ -15,6 +15,37 @@ export default function PatchNotes() {
 					Patch Notes
 				</Title>
 				<Title mb={10} order={2}>
+					Thursday, March 12, 2026
+				</Title>
+				<List mb={20} size="lg" type="unordered">
+					<List.Item mb={10}>
+						Improved session handling. You shouldn&rsquo;t get timed out if you spend a while
+						editing colors or whatever, and you also shouldn&rsquo;t have to log back in every time
+						you open the site in a new tab.
+					</List.Item>
+					<List.Item mb={10}>
+						However, if you <em>do</em> get timed out or logged out for some reason, the site now
+						stores your color choices and will restore them when you log back in, so you won&rsquo;t
+						lose your custom colors.
+					</List.Item>
+					<List.Item mb={10}>
+						I added a &ldquo;Buy Me a Coffee&rdquo; button. If you like the site and want to help me
+						keep it running, that&rsquo;s a great way to do it! It&rsquo;s not required and
+						EmbedBsky will be free until such time as the AWS costs get out of control, which
+						hasn&rsquo;t happened for a year but I guess we&rsquo;ll see. 😉
+					</List.Item>
+					<List.Item mb={10}>
+						Added the option (defaulted to on for new users) to add a little &ldquo;Powered by
+						EmbedBsky&rdquo; badge at the bottom of the feed. Publicity helps, but I also want to be
+						respectful of people who would prefer not to have that, so you can turn it off if you
+						want.
+					</List.Item>
+					<List.Item mb={10}>
+						That&rsquo;s about it. I&rsquo;ve got a few more things to add in the next week or so,
+						but this seems like a good update!
+					</List.Item>
+				</List>
+				<Title mb={10} order={2}>
 					Friday, May 9th, 2025
 				</Title>
 				<List mb={20} size="lg" type="unordered">

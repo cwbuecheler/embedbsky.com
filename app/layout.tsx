@@ -2,7 +2,7 @@
 import type { Metadata } from 'next';
 
 // Mantine and Related
-import { Container, Loader, MantineProvider } from '@mantine/core';
+import { ColorSchemeScript, Container, Loader, MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import theme from '@/theme';
 import '@mantine/core/styles.css';
@@ -53,6 +53,11 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
+			<head>
+				<ColorSchemeScript />
+				{/* eslint-disable-next-line @next/next/no-css-tags */}
+				<link rel="stylesheet" href="/embedbsky.com-master.css" />
+			</head>
 			<body>
 				<MantineProvider theme={theme}>
 					<Notifications />
