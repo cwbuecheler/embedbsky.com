@@ -4,10 +4,8 @@ import { UseFormReturnType } from '@mantine/form';
 
 // TS Types
 import { ColorList, ColorObj, FormValues } from '@/types/data';
-import { useEffect, useState } from 'react';
 
 type Props = {
-	darkmode: boolean;
 	form: UseFormReturnType<FormValues, (values: FormValues) => FormValues>;
 };
 
@@ -65,37 +63,15 @@ export const lightModeColors: ColorList = {
 	text: 'rgb(66, 87, 108)',
 };
 
-const ColorPickers: React.FC<Props> = (props) => {
-	const { darkmode, form } = props;
-
-	const [colorObjs, setColorObjs] = useState<ColorObj[]>([]);
-	const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
-
-	// Handle darkmode toggle
-	useEffect(() => {
-		const generateColorObjs = (): ColorObj[] => {
-			const listToUse = darkmode ? darkModeColors : lightModeColors;
-			const colorObjList: ColorObj[] = colors.map((color) => {
-				return {
-					label: color.label,
-					name: color.name,
-					value: listToUse[color.name],
-				};
-			});
-			return colorObjList;
-		};
-
-		if (isFirstRender) {
-			form.values.colors = darkmode ? darkModeColors : lightModeColors;
-			const objs = generateColorObjs();
-			setColorObjs(objs);
-			setIsFirstRender(false);
-		}
-	}, [darkmode, form.values, isFirstRender]);
+const ColorPickers: React.FC<Props> = ({ form }) => {
+	const colorObjs: ColorObj[] = colors.map((color) => ({
+		label: color.label,
+		name: color.name,
+		value: form.values.colors[color.name],
+	}));
 
 	return colorObjs.map((colorObj) => (
 		<ColorInput
-			defaultValue={colorObj.value}
 			format="rgb"
 			key={colorObj.name}
 			label={colorObj.label}

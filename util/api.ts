@@ -7,6 +7,13 @@ const handleFetchResponse = async (resp: Response) => {
 		const json = await resp.json();
 		return { data: json.data, error: '', success: true };
 	}
+	if (resp.status === 401) {
+		return {
+			data: '401',
+			error: 'Your session has expired. Please log in again.',
+			success: false,
+		};
+	}
 	if (resp.status === 403) {
 		return {
 			data: '403',
@@ -18,11 +25,12 @@ const handleFetchResponse = async (resp: Response) => {
 };
 
 export const api: API = {
-	createFeed: async (bskyId: string, did: string, includeReposts: boolean, limit?: number) => {
+	createFeed: async (bskyId: string, did: string, enableFooter: boolean, includeReposts: boolean, limit?: number) => {
 		try {
 			const response = await fetch(`${API_URI}/create/${bskyId}`, {
 				body: JSON.stringify({
 					did,
+					enableFooter,
 					includeReposts,
 					limit: limit || 30,
 				}),
@@ -66,6 +74,28 @@ export const api: API = {
 			const handlerResp = await handleFetchResponse(response);
 			if (!handlerResp.success) {
 				throw new Error(handlerResp.error || 'API - An unknown error occurred - lookupFeed');
+			}
+			return handlerResp;
+		} catch (err: any) {
+			return {
+				data: '',
+				error: err.message,
+				success: false,
+			};
+		}
+	},
+	refreshSession: async (did: string) => {
+		try {
+			const response = await fetch(`${API_URI}/login/refresh`, {
+				body: JSON.stringify({ did }),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			});
+			const handlerResp = await handleFetchResponse(response);
+			if (!handlerResp.success) {
+				throw new Error(handlerResp.error || 'API - An unknown error occurred - refreshSession');
 			}
 			return handlerResp;
 		} catch (err: any) {

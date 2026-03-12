@@ -10,16 +10,16 @@ import { ColorList } from '@/types/data';
 type TimelineExampleProps = {
 	colors: ColorList | undefined;
 	darkmode: boolean;
+	enableFooter: boolean;
 	embedHTML: string;
 	showColors: boolean;
 };
 
 const TimelineExample: React.FC<TimelineExampleProps> = (props) => {
-	const { colors, darkmode, embedHTML, showColors } = props;
-	const classNames = `${classes.embedexample} ${darkmode ? `${classes.darkmode} darkmode` : ''}`;
+	const { colors, darkmode, enableFooter, embedHTML, showColors } = props;
+	const classNames = `${classes.embedexample} ${darkmode ? `${classes.darkmode} darkmode` : ''} ${enableFooter ? 'hasfooter' : ''}`;
 	return (
 		<>
-			<link rel="stylesheet" href="/embedbsky.com-master.css" />
 			{showColors && colors ? (
 				<style type="text/css">{generateCustomCSS(createStyles(colors))}</style>
 			) : null}

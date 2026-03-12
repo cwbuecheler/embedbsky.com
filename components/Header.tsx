@@ -5,8 +5,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 // Mantine & Related
-import { Burger, Container, Group, Image } from '@mantine/core';
+import { ActionIcon, Burger, Button, Container, Group, Image } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconLogout } from '@tabler/icons-react';
 import classes from './Header.module.css';
 
 type Link = {
@@ -23,6 +24,8 @@ type Links = {
 
 type Props = {
 	activeLink: string;
+	isLoggedIn?: boolean;
+	onLogout?: () => void;
 };
 
 const links: Links = {
@@ -41,7 +44,7 @@ const links: Links = {
 };
 
 const Header: React.FC<Props> = (props) => {
-	const { activeLink } = props;
+	const { activeLink, isLoggedIn, onLogout } = props;
 
 	const [opened, { toggle }] = useDisclosure(false);
 	const [active, setActive] = useState(links[activeLink].link);
@@ -77,8 +80,20 @@ const Header: React.FC<Props> = (props) => {
 				</span>
 				<Group gap={5} visibleFrom="xs">
 					{items}
+					{isLoggedIn && (
+						<Button ml={4} onClick={onLogout} size="xs" variant="outline">
+							Log Out
+						</Button>
+					)}
 				</Group>
-				<Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" />
+				<Group gap={8} hiddenFrom="xs">
+					{isLoggedIn && (
+						<ActionIcon aria-label="Log out" onClick={onLogout} size="sm" variant="outline">
+							<IconLogout size={14} />
+						</ActionIcon>
+					)}
+					<Burger opened={opened} onClick={toggle} size="sm" />
+				</Group>
 			</Container>
 		</header>
 	);

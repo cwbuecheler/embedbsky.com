@@ -31,9 +31,13 @@ export const generateJS = (
 	width: number | null,
 	height: number | null,
 	darkmode: boolean,
+	enableFooter: boolean,
 	showColors: boolean,
 	colors: ColorList | undefined,
 ) => {
+	const darkmodeClass = darkmode ? 'darkmode ' : '';
+	const footerClass = enableFooter ? 'hasfooter' : '';
+	const classNames = `${darkmodeClass}${footerClass}`;
 	let w = width ? width : 0;
 	let h = height ? height : 600;
 	let js = '<link rel="stylesheet" href="https://embedbsky.com/embedbsky.com-master-min.css" />';
@@ -44,7 +48,7 @@ export const generateJS = (
 		js += `</style>`;
 		js += `<div id="embedbsky-com-timeline-embed"></div>`;
 	} else {
-		js += `<div id="embedbsky-com-timeline-embed"${darkmode ? ' class="darkmode"' : ''}></div>`;
+		js += `<div id="embedbsky-com-timeline-embed" class="${classNames}"></div>`;
 	}
 	js += '<script>';
 	js += `let containerWidth=${w},containerHeight=${h};`;
