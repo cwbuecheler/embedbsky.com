@@ -12,10 +12,21 @@
 #embedbsky-com-timeline-embed {
 	color: var(--v-color-text);
 	overflow-y: scroll;
+	position: relative;
+}
+
+/* Optional class saying yes, there's a footer */
+#embedbsky-com-timeline-embed.hasfooter {
+	padding-bottom: 22px;
+}
+/* On the off chance the footer html gets generated but hasFooter is false, hide it */
+#embedbsky-com-timeline-embed:not(.hasfooter) .footer {
+	display: none;
 }
 
 /* Header showing who's timeline it is ========================================================= */
 #embedbsky-com-timeline-embed .header {
+	background-color: var(--v-color-background);
 	border-bottom: 2px solid var(--v-color-border);
 	box-sizing: content-box;
 	display: flex;
@@ -39,8 +50,9 @@
 	width: 60px;
 }
 #embedbsky-com-timeline-embed .header .text {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
-		Arial, sans-serif;
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica, Arial,
+		sans-serif;
 	line-height: 1;
 	white-space: nowrap;
 	width: calc(100% - 70px);
@@ -79,6 +91,31 @@
 	text-decoration: underline;
 }
 
+/* Footer, if it exists, with a little credit to the site ========================================================= */
+#embedbsky-com-timeline-embed .footer {
+	align-items: center;
+	background-color: var(--v-color-background);
+	border-top: 1px solid var(--v-color-border);
+	bottom: -32px;
+	display: flex;
+	font-size: 0.75rem;
+	justify-content: center;
+	padding: 6px 0;
+	position: sticky;
+	text-align: center;
+	width: 100%;
+}
+#embedbsky-com-timeline-embed .footer a:link,
+#embedbsky-com-timeline-embed .footer a:visited,
+#embedbsky-com-timeline-embed .footer a:active {
+	color: var(--v-color-link);
+	text-decoration: none;
+}
+#embedbsky-com-timeline-embed .footer a:hover {
+	color: var(--v-color-link-hover);
+	text-decoration: underline;
+}
+
 /* Every individual post has a container ======================================================= */
 #embedbsky-com-timeline-embed .postcontainer {
 	background: var(--v-color-background);
@@ -87,8 +124,9 @@
 /* If the post is a repost, it gets a header explaining who reposted it  ======================= */
 #embedbsky-com-timeline-embed .postcontainer .repostheader {
 	color: var(--v-color-repost-header);
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
-		Arial, sans-serif;
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica, Arial,
+		sans-serif;
 	font-size: 14px;
 	font-weight: 700;
 	letter-spacing: 0.25px;
@@ -146,22 +184,37 @@
 	flex: 1 1 0%;
 	font-size: 16px;
 	font-size: 1rem;
-	font: 16px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	font:
+		16px -apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		Roboto,
+		Helvetica,
+		Arial,
+		sans-serif;
 	letter-spacing: 0.25px;
 	line-height: 21px;
 	text-align: start;
 	text-decoration: none;
 }
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .textdata {
-	font: 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	font:
+		14px -apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		Roboto,
+		Helvetica,
+		Arial,
+		sans-serif;
 	text-align: start;
 	text-decoration: none;
 }
 
 /* User name  ================================================================================== */
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text strong {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
-		Arial, sans-serif;
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica, Arial,
+		sans-serif;
 	font-size: 16px;
 	font-weight: 700;
 	letter-spacing: 0.25px;
@@ -190,8 +243,9 @@
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .handle {
 	color: var(--v-color-link-handle);
 	flex-shrink: 4;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
-		Arial, sans-serif;
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica, Arial,
+		sans-serif;
 	font-size: 15px;
 	font-weight: 400;
 	letter-spacing: 0.25px;
@@ -309,16 +363,18 @@
 }
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .linkcard .site {
 	color: var(--v-color-link-handle);
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
-		Arial, sans-serif;
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica, Arial,
+		sans-serif;
 	font-size: 14px;
 	font-weight: 400;
 	letter-spacing: 0.25px;
 	padding: 8px 14px 2px 14px;
 }
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .linkcard .text {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica,
-		Arial, sans-serif;
+	font-family:
+		-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Liberation Sans', Helvetica, Arial,
+		sans-serif;
 	font-size: 16px;
 	letter-spacing: 0.25px;
 	padding: 2px 14px 8px 14px;
@@ -387,7 +443,14 @@
 	width: 16px;
 }
 #embedbsky-com-timeline-embed .postcontainer .postbox .col.text .quotebox .header .timeago {
-	font: 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+	font:
+		14px -apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		Roboto,
+		Helvetica,
+		Arial,
+		sans-serif;
 	text-align: start;
 	text-decoration: none;
 }

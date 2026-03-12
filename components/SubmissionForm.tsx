@@ -1,7 +1,7 @@
 'use client';
 
 // React & 3rd Party Libraries
-import { ChangeEventHandler, Dispatch, FormEvent, SetStateAction } from 'react';
+import { ChangeEventHandler, Dispatch, FormEvent, SetStateAction, useEffect } from 'react';
 
 // Mantine & Related
 import {
@@ -18,7 +18,7 @@ import {
 import { useForm } from '@mantine/form';
 
 // Local Modules
-import ColorPickers, { lightModeColors } from '@/components/ColorPickers';
+import ColorPickers from '@/components/ColorPickers';
 import classes from '@/components/SubmissionForm.module.css';
 
 // TS Types
@@ -27,11 +27,15 @@ import { ColorList, FormValues } from '@/types/data';
 type Props = {
 	bskyHandle: string;
 	darkmode: boolean;
+	enableFooter: boolean;
 	handleSetDarkmode: ChangeEventHandler<HTMLInputElement> | undefined;
+	handleSetEnableFooter: ChangeEventHandler<HTMLInputElement> | undefined;
 	handleSetIncludeReposts: ChangeEventHandler<HTMLInputElement> | undefined;
 	handleSetShowColors: ChangeEventHandler<HTMLInputElement> | undefined;
 	includeReposts: boolean;
+	initialColors: ColorList;
 	isLoading: boolean;
+	persistColors: (colors: ColorList) => void;
 	setColors: Dispatch<SetStateAction<ColorList | undefined>>;
 	showColors: boolean;
 	submitForm: (feedFormValues: FormValues) => Promise<void>;
@@ -41,11 +45,15 @@ const SubmissionForm: React.FC<Props> = (props) => {
 	const {
 		bskyHandle,
 		darkmode,
+		enableFooter,
 		handleSetDarkmode,
+		handleSetEnableFooter,
 		handleSetIncludeReposts,
 		handleSetShowColors,
 		includeReposts,
+		initialColors,
 		isLoading,
+		persistColors,
 		setColors,
 		showColors,
 		submitForm,
@@ -55,7 +63,8 @@ const SubmissionForm: React.FC<Props> = (props) => {
 	const form = useForm<FormValues>({
 		initialValues: {
 			bskyHandle,
-			colors: lightModeColors,
+			colors: initialColors,
+			enableFooter: true,
 			height: null,
 			limit: 30,
 			width: null,
@@ -66,6 +75,11 @@ const SubmissionForm: React.FC<Props> = (props) => {
 			},
 		},
 	});
+
+	// Persist colors to localStorage whenever they change in the picker
+	useEffect(() => {
+		persistColors(form.values.colors);
+	}, [form.values.colors]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -135,6 +149,18 @@ const SubmissionForm: React.FC<Props> = (props) => {
 				</Text>
 				<Space h="lg" />
 				<Switch
+					label="Enable EmbedBsky Footer"
+					key={form.key('enableFooter')}
+					checked={enableFooter}
+					onChange={handleSetEnableFooter}
+				/>
+				<Space h="sm" />
+				<Text size="xs">
+					Show a small &quot;Powered by EmbedBsky.com&quot; footer on your embed. This helps the
+					site!
+				</Text>
+				<Space h="lg" />
+				<Switch
 					label="Enable Dark Mode"
 					disabled={showColors}
 					checked={darkmode}
@@ -142,8 +168,8 @@ const SubmissionForm: React.FC<Props> = (props) => {
 				/>
 				<Space h="sm" />
 				<Text size="xs">
-					Note: this will change the example dynamically but you must resubmit to change the embed
-					code. Also, if you have custom colors set, this will overwrite them.
+					Note: this updates both the example and embed code immediately. If you have set custom
+					colors, this option is disabled to prevent conflicts.
 				</Text>
 				<Space h="lg" />
 				<Switch label="Set My Own Colors" checked={showColors} onChange={handleSetShowColors} />
@@ -155,7 +181,7 @@ const SubmissionForm: React.FC<Props> = (props) => {
 					<Box>
 						<Title order={3}>Colors</Title>
 						<Space h="sm" />
-						<ColorPickers darkmode={darkmode} form={form} />
+						<ColorPickers form={form} />
 					</Box>
 				) : null}
 				<Space h="sm" />
