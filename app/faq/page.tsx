@@ -62,6 +62,15 @@ export default function FAQ() {
 					</Anchor>
 				</Text>
 				<Title mb={10} order={2}>
+					Can I toggle Dark Mode programmatically so that the timeline matches whatever mode my site
+					is in?
+				</Title>
+				<Text mb={20} size="lg">
+					Yes! All you need to do is add the class &ldquo;darkmode&rdquo; to the container div (the
+					one with the id &ldquo;embedbsky-com-timeline-embed&rdquo;). The CSS will take care of the
+					rest.
+				</Text>
+				<Title mb={10} order={2}>
 					Didn&apos;t someone else already do this?
 				</Title>
 				<Text mb={20} size="lg">
